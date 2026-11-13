@@ -117,7 +117,7 @@ export const ReceptionPage: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <div>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '0 0 8px 0' }}>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0a5f55', margin: '0 0 8px 0' }}>
           Recepção - Entrada de Pacientes
         </h1>
         <p style={{ color: '#64748b', margin: 0 }}>
@@ -146,7 +146,7 @@ export const ReceptionPage: React.FC = () => {
         {/* Painel Esquerdo: Busca e Abertura */}
         <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, margin: 0, color: '#1e293b' }}>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, margin: 0, color: '#0a5f55' }}>
               Localizar Paciente
             </h2>
             <button
@@ -157,7 +157,7 @@ export const ReceptionPage: React.FC = () => {
               }}
               style={{
                 padding: '6px 12px',
-                backgroundColor: showNewPatientForm ? '#64748b' : '#0284c7',
+                backgroundColor: showNewPatientForm ? '#64748b' : '#00995d',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '6px',
@@ -211,12 +211,12 @@ export const ReceptionPage: React.FC = () => {
                         padding: '10px 14px',
                         borderRadius: '6px',
                         border: isSelected ? '2px solid #0284c7' : '1px solid #e2e8f0',
-                        backgroundColor: isSelected ? '#f0f9ff' : '#ffffff',
+                        backgroundColor: isSelected ? '#e6f5ef' : '#ffffff',
                         cursor: 'pointer',
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <strong style={{ color: '#0f172a' }}>{patient.name}</strong>
+                        <strong style={{ color: '#0a5f55' }}>{patient.name}</strong>
                         <span style={{ fontSize: '0.85rem', color: '#64748b' }}>
                           Nasc.: {patient.birth_date}
                         </span>
@@ -236,8 +236,8 @@ export const ReceptionPage: React.FC = () => {
 
               {/* Ação de abertura de atendimento */}
               {selectedPatient && (
-                <div style={{ marginTop: '20px', padding: '16px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1rem', color: '#0f172a' }}>
+                <div style={{ marginTop: '20px', padding: '16px', backgroundColor: '#f4f7f6', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1rem', color: '#0a5f55' }}>
                     Abrir Atendimento para: <u>{selectedPatient.name}</u>
                   </h3>
                   <p style={{ fontSize: '0.85rem', color: '#475569', margin: '0 0 12px 0' }}>
@@ -250,7 +250,7 @@ export const ReceptionPage: React.FC = () => {
                     style={{
                       width: '100%',
                       padding: '10px',
-                      backgroundColor: '#059669',
+                      backgroundColor: '#00995d',
                       color: '#ffffff',
                       fontWeight: 700,
                       borderRadius: '6px',
@@ -345,7 +345,7 @@ export const ReceptionPage: React.FC = () => {
                   style={{
                     flex: 1,
                     padding: '10px',
-                    backgroundColor: '#0284c7',
+                    backgroundColor: '#00995d',
                     color: '#ffffff',
                     fontWeight: 700,
                     borderRadius: '6px',
@@ -362,7 +362,7 @@ export const ReceptionPage: React.FC = () => {
 
         {/* Painel Direito: Atendimentos Abertos no Dia (Item 2.2) */}
         <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 16px 0', color: '#1e293b' }}>
+          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 16px 0', color: '#0a5f55' }}>
             Atendimentos Abertos Hoje ({todayEncounters.length})
           </h2>
 
@@ -384,12 +384,12 @@ export const ReceptionPage: React.FC = () => {
                     padding: '10px 14px',
                     borderRadius: '6px',
                     border: '1px solid #e2e8f0',
-                    backgroundColor: '#f8fafc',
+                    backgroundColor: '#f4f7f6',
                   }}
                 >
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <strong style={{ fontSize: '1.1rem', color: '#0f172a' }}>{enc.ticket_number}</strong>
+                      <strong style={{ fontSize: '1.1rem', color: '#0a5f55' }}>{enc.ticket_number}</strong>
                       <span style={{ fontWeight: 600, color: '#334155' }}>
                         {enc.patient?.name || 'Paciente sem nome'}
                       </span>

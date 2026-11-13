@@ -56,7 +56,7 @@ export const ManagementPage: React.FC = () => {
       {/* Cabeçalho e Filtro por Período */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '0 0 6px 0' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0a5f55', margin: '0 0 6px 0' }}>
             Painel de Indicadores da Gestão
           </h1>
           <p style={{ color: '#64748b', margin: 0 }}>
@@ -78,7 +78,7 @@ export const ManagementPage: React.FC = () => {
                 onClick={() => setPeriod(p.id as ManagementPeriod)}
                 style={{
                   padding: '8px 14px',
-                  backgroundColor: period === p.id ? '#0f172a' : '#ffffff',
+                  backgroundColor: period === p.id ? '#0a5f55' : '#ffffff',
                   color: period === p.id ? '#ffffff' : '#334155',
                   border: 'none',
                   fontWeight: 600,
@@ -97,7 +97,7 @@ export const ManagementPage: React.FC = () => {
             disabled={!data}
             style={{
               padding: '8px 14px',
-              backgroundColor: '#0284c7',
+              backgroundColor: '#00995d',
               color: '#ffffff',
               borderRadius: '6px',
               border: 'none',
@@ -155,7 +155,7 @@ export const ManagementPage: React.FC = () => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '20px' }}>
             {/* Distribuição dos atendimentos por cor */}
             <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', margin: '0 0 16px 0' }}>
+              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0a5f55', margin: '0 0 16px 0' }}>
                 Distribuição dos Atendimentos por Cor
               </h2>
 
@@ -165,7 +165,7 @@ export const ManagementPage: React.FC = () => {
                   return (
                     <div key={item.color}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '4px' }}>
-                        <span style={{ fontWeight: 700, color: '#1e293b' }}>{item.color}</span>
+                        <span style={{ fontWeight: 700, color: '#0a5f55' }}>{item.color}</span>
                         <span style={{ color: '#64748b' }}>
                           {item.count} atendimentos ({item.percentage}%)
                         </span>
@@ -189,7 +189,7 @@ export const ManagementPage: React.FC = () => {
 
             {/* Tempo Médio de Espera vs Tempo Máximo */}
             <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', margin: '0 0 16px 0' }}>
+              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0a5f55', margin: '0 0 16px 0' }}>
                 Tempo Médio de Espera vs. Tempo Máximo
               </h2>
 
@@ -203,7 +203,7 @@ export const ManagementPage: React.FC = () => {
                       alignItems: 'center',
                       padding: '8px 12px',
                       borderRadius: '6px',
-                      backgroundColor: item.isOverdueAvg ? '#fef2f2' : '#f8fafc',
+                      backgroundColor: item.isOverdueAvg ? '#fef2f2' : '#f4f7f6',
                       border: item.isOverdueAvg ? '1px solid #fecaca' : '1px solid #e2e8f0',
                     }}
                   >
@@ -230,7 +230,7 @@ export const ManagementPage: React.FC = () => {
 
           {/* Linha 3: Atendimentos por Hora no Dia */}
           <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-            <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', margin: '0 0 16px 0' }}>
+            <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0a5f55', margin: '0 0 16px 0' }}>
               Atendimentos por Hora no Dia (00:00 às 23:00)
             </h2>
 
@@ -258,7 +258,7 @@ export const ManagementPage: React.FC = () => {
                       style={{
                         width: '100%',
                         height: `${Math.max(heightPercent, 4)}%`,
-                        backgroundColor: item.count > 0 ? '#2563eb' : '#e2e8f0',
+                        backgroundColor: item.count > 0 ? '#00995d' : '#e2e8f0',
                         borderRadius: '3px 3px 0 0',
                         transition: 'height 0.3s ease',
                       }}

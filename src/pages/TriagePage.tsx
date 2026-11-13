@@ -79,7 +79,7 @@ export const TriagePage: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <div>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '0 0 8px 0' }}>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0a5f55', margin: '0 0 8px 0' }}>
           Triagem e Classificação de Risco (Manchester Simplificado)
         </h1>
         <p style={{ color: '#64748b', margin: 0 }}>
@@ -108,7 +108,7 @@ export const TriagePage: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Fila de Triagem Inicial */}
           <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 14px 0', color: '#1e293b' }}>
+            <h2 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 14px 0', color: '#0a5f55' }}>
               Pacientes Aguardando Triagem ({waitingTriage.length})
             </h2>
 
@@ -130,7 +130,7 @@ export const TriagePage: React.FC = () => {
                         padding: '12px 14px',
                         borderRadius: '6px',
                         border: isSelected ? '2px solid #059669' : '1px solid #e2e8f0',
-                        backgroundColor: isSelected ? '#ecfdf5' : '#f8fafc',
+                        backgroundColor: isSelected ? '#e6f5ef' : '#f4f7f6',
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
@@ -138,10 +138,10 @@ export const TriagePage: React.FC = () => {
                     >
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a' }}>
+                          <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0a5f55' }}>
                             {enc.ticket_number}
                           </span>
-                          <strong style={{ color: '#1e293b' }}>{enc.patient?.name}</strong>
+                          <strong style={{ color: '#0a5f55' }}>{enc.patient?.name}</strong>
                           {age !== null && <span style={{ color: '#64748b', fontSize: '0.85rem' }}>({age} anos)</span>}
                         </div>
                         <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '4px' }}>
@@ -154,7 +154,7 @@ export const TriagePage: React.FC = () => {
                         onClick={() => handleStartTriage(enc, false)}
                         style={{
                           padding: '6px 14px',
-                          backgroundColor: '#059669',
+                          backgroundColor: '#00995d',
                           color: '#ffffff',
                           fontWeight: 700,
                           borderRadius: '6px',
@@ -173,7 +173,7 @@ export const TriagePage: React.FC = () => {
 
           {/* Opção de Reclassificação de Paciente na Fila */}
           <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 10px 0', color: '#1e293b' }}>
+            <h2 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 10px 0', color: '#0a5f55' }}>
               Reclassificar Paciente na Fila ({waitingDoctor.length})
             </h2>
             <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 12px 0' }}>
@@ -271,7 +271,7 @@ export const TriagePage: React.FC = () => {
           ) : (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: '#64748b' }}>
               <span style={{ fontSize: '3rem', display: 'block', marginBottom: '12px' }}>🩺</span>
-              <h3 style={{ margin: '0 0 8px 0', color: '#1e293b' }}>Selecione um paciente</h3>
+              <h3 style={{ margin: '0 0 8px 0', color: '#0a5f55' }}>Selecione um paciente</h3>
               <p style={{ fontSize: '0.9rem', margin: 0 }}>
                 Escolha um paciente na lista ao lado para iniciar a medição dos sinais vitais e classificação de risco.
               </p>

@@ -34,7 +34,7 @@ export const QueuePage: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '0 0 6px 0' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0a5f55', margin: '0 0 6px 0' }}>
             Fila de Atendimento Médico (Tempo Real)
           </h1>
           <p style={{ color: '#64748b', margin: 0 }}>
@@ -79,8 +79,8 @@ export const QueuePage: React.FC = () => {
                 gap: '8px',
                 padding: '8px 14px',
                 borderRadius: '6px',
-                border: isSelected ? '2px solid #0f172a' : '1px solid #cbd5e1',
-                backgroundColor: isSelected ? '#0f172a' : '#f8fafc',
+                border: isSelected ? '2px solid #0a5f55' : '1px solid #cbd5e1',
+                backgroundColor: isSelected ? '#0a5f55' : '#f4f7f6',
                 color: isSelected ? '#ffffff' : '#334155',
                 fontWeight: 700,
                 fontSize: '0.85rem',
@@ -103,7 +103,7 @@ export const QueuePage: React.FC = () => {
               <span
                 style={{
                   backgroundColor: isSelected ? '#334155' : '#e2e8f0',
-                  color: isSelected ? '#f8fafc' : '#1e293b',
+                  color: isSelected ? '#f4f7f6' : '#0a5f55',
                   padding: '1px 6px',
                   borderRadius: '999px',
                   fontSize: '0.75rem',
@@ -137,7 +137,7 @@ export const QueuePage: React.FC = () => {
           }}
         >
           <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: '8px' }}>🎉</span>
-          <h3 style={{ margin: '0 0 6px 0', color: '#1e293b' }}>Nenhum paciente aguardando</h3>
+          <h3 style={{ margin: '0 0 6px 0', color: '#0a5f55' }}>Nenhum paciente aguardando</h3>
           <p style={{ margin: 0, fontSize: '0.9rem' }}>
             Não há pacientes com o filtro selecionado no momento.
           </p>

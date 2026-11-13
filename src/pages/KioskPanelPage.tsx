@@ -89,7 +89,7 @@ export const KioskPanelPage: React.FC = () => {
         flexDirection: 'column',
         justifyContent: 'space-between',
         padding: '24px',
-        backgroundColor: '#090d16',
+        backgroundColor: '#06332e',
         color: '#ffffff',
         fontFamily: 'system-ui, -apple-system, sans-serif',
       }}
@@ -107,7 +107,7 @@ export const KioskPanelPage: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span style={{ fontSize: '2.5rem' }}>🏥</span>
           <div>
-            <h1 style={{ fontSize: '2rem', fontWeight: 900, margin: 0, letterSpacing: '-0.02em', color: '#60a5fa' }}>
+            <h1 style={{ fontSize: '2rem', fontWeight: 900, margin: 0, letterSpacing: '-0.02em', color: '#b1d34b' }}>
               PRONTO-SOCORRO MUNICIPAL
             </h1>
             <span style={{ fontSize: '1rem', color: '#94a3b8' }}>Painel de Atendimento da Sala de Espera</span>
@@ -134,7 +134,7 @@ export const KioskPanelPage: React.FC = () => {
           >
             {soundEnabled ? '🔊 Som Ativo' : '🔇 Ativar Som'}
           </button>
-          <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#f8fafc' }}>
+          <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#f4f7f6' }}>
             {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </div>
         </div>
@@ -145,7 +145,7 @@ export const KioskPanelPage: React.FC = () => {
         {/* Painel de Destaque da Chamada Atual */}
         <div
           style={{
-            backgroundColor: '#111827',
+            backgroundColor: '#0a4a42',
             borderRadius: '16px',
             border: '3px solid #3b82f6',
             display: 'flex',
@@ -153,11 +153,11 @@ export const KioskPanelPage: React.FC = () => {
             justifyContent: 'center',
             alignItems: 'center',
             padding: '36px',
-            boxShadow: '0 0 50px rgba(59, 130, 246, 0.25)',
+            boxShadow: '0 0 50px rgba(0, 153, 93, 0.25)',
             textAlign: 'center',
           }}
         >
-          <span style={{ fontSize: '1.5rem', fontWeight: 800, color: '#93c5fd', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+          <span style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
             CHAMADA ATUAL
           </span>
 
@@ -200,7 +200,7 @@ export const KioskPanelPage: React.FC = () => {
         {/* Painel das Últimas 5 Chamadas */}
         <div
           style={{
-            backgroundColor: '#111827',
+            backgroundColor: '#0a4a42',
             borderRadius: '16px',
             border: '1px solid #1f2937',
             padding: '24px',
@@ -225,14 +225,14 @@ export const KioskPanelPage: React.FC = () => {
                     alignItems: 'center',
                     padding: '12px 18px',
                     borderRadius: '8px',
-                    backgroundColor: '#1e293b',
+                    backgroundColor: '#0a5f55',
                     border: '1px solid #334155',
                   }}
                 >
                   <span style={{ fontSize: '2rem', fontWeight: 800, color: '#ffffff', letterSpacing: '0.05em' }}>
                     {call.ticket_number}
                   </span>
-                  <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#93c5fd' }}>
+                  <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>
                     {call.room}
                   </span>
                 </div>
@@ -269,7 +269,7 @@ export const KioskPanelPage: React.FC = () => {
                   justifyContent: 'space-between',
                   padding: '10px 14px',
                   borderRadius: '8px',
-                  backgroundColor: '#111827',
+                  backgroundColor: '#0a4a42',
                   border: `2px solid ${config.hex}`,
                 }}
               >
@@ -283,7 +283,7 @@ export const KioskPanelPage: React.FC = () => {
                       display: 'inline-block',
                     }}
                   />
-                  <strong style={{ fontSize: '0.95rem', color: '#f8fafc' }}>{c}</strong>
+                  <strong style={{ fontSize: '0.95rem', color: '#f4f7f6' }}>{c}</strong>
                 </div>
 
                 <span style={{ fontSize: '1.1rem', fontWeight: 800, color: config.hex }}>

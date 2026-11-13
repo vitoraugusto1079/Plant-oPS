@@ -55,7 +55,7 @@ export const QueueItem: React.FC<QueueItemProps> = ({
           : isNext
           ? '2px solid #3b82f6'
           : '1px solid #e5e7eb',
-        boxShadow: isNext ? '0 4px 6px -1px rgba(59, 130, 246, 0.1)' : '0 1px 3px rgba(0,0,0,0.05)',
+        boxShadow: isNext ? '0 4px 6px -1px rgba(0, 153, 93, 0.1)' : '0 1px 3px rgba(0,0,0,0.05)',
         cursor: onSelect ? 'pointer' : 'default',
         transition: 'all 0.2s ease',
       }}
@@ -68,7 +68,7 @@ export const QueueItem: React.FC<QueueItemProps> = ({
             style={{
               fontSize: '1.25rem',
               fontWeight: 800,
-              color: '#1e293b',
+              color: '#0a5f55',
               letterSpacing: '0.05em',
             }}
           >
@@ -77,7 +77,7 @@ export const QueueItem: React.FC<QueueItemProps> = ({
           {isNext && (
             <span
               style={{
-                backgroundColor: '#3b82f6',
+                backgroundColor: '#00995d',
                 color: '#ffffff',
                 fontSize: '0.75rem',
                 fontWeight: 700,
@@ -110,7 +110,7 @@ export const QueueItem: React.FC<QueueItemProps> = ({
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '8px' }}>
         <div>
-          <span style={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
+          <span style={{ fontWeight: 700, fontSize: '1rem', color: '#0a5f55' }}>
             {patient?.name || 'Paciente sem nome'}
           </span>
           {age !== null && (
@@ -125,7 +125,7 @@ export const QueueItem: React.FC<QueueItemProps> = ({
         )}
       </div>
 
-      <div style={{ fontSize: '0.9rem', color: '#475569', backgroundColor: '#f8fafc', padding: '6px 10px', borderRadius: '4px' }}>
+      <div style={{ fontSize: '0.9rem', color: '#475569', backgroundColor: '#f4f7f6', padding: '6px 10px', borderRadius: '4px' }}>
         <strong>Queixa:</strong> {chiefComplaint}
       </div>
 
@@ -139,7 +139,7 @@ export const QueueItem: React.FC<QueueItemProps> = ({
             }}
             style={{
               padding: '6px 14px',
-              backgroundColor: '#0284c7',
+              backgroundColor: '#00995d',
               color: '#ffffff',
               border: 'none',
               borderRadius: '6px',

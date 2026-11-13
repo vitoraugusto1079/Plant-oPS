@@ -65,7 +65,7 @@ export const LoginPage: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#0f172a',
+        background: 'linear-gradient(135deg, #0a5f55 0%, #00995d 60%, #b1d34b 100%)',
         padding: '20px',
       }}
     >
@@ -81,7 +81,7 @@ export const LoginPage: React.FC = () => {
       >
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
           <span style={{ fontSize: '3rem' }}>🏥</span>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '8px 0 4px 0' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0a5f55', margin: '8px 0 4px 0' }}>
             PlantãoPS
           </h1>
           <p style={{ color: '#64748b', fontSize: '0.9rem', margin: 0 }}>
@@ -154,7 +154,7 @@ export const LoginPage: React.FC = () => {
             disabled={isSubmitting}
             style={{
               padding: '12px',
-              backgroundColor: '#2563eb',
+              backgroundColor: '#00995d',
               color: '#ffffff',
               fontWeight: 700,
               fontSize: '1rem',
@@ -177,35 +177,35 @@ export const LoginPage: React.FC = () => {
             <button
               type="button"
               onClick={() => fillQuickCredentials('recepcao@plantaops.com')}
-              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f8fafc', cursor: 'pointer' }}
+              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f4f7f6', cursor: 'pointer' }}
             >
               Recepção
             </button>
             <button
               type="button"
               onClick={() => fillQuickCredentials('enfermagem@plantaops.com')}
-              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f8fafc', cursor: 'pointer' }}
+              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f4f7f6', cursor: 'pointer' }}
             >
               Enfermagem
             </button>
             <button
               type="button"
               onClick={() => fillQuickCredentials('medico@plantaops.com')}
-              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f8fafc', cursor: 'pointer' }}
+              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f4f7f6', cursor: 'pointer' }}
             >
               Médico
             </button>
             <button
               type="button"
               onClick={() => fillQuickCredentials('gestao@plantaops.com')}
-              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f8fafc', cursor: 'pointer' }}
+              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f4f7f6', cursor: 'pointer' }}
             >
               Gestão
             </button>
             <button
               type="button"
               onClick={() => fillQuickCredentials('painel@plantaops.com')}
-              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f8fafc', cursor: 'pointer' }}
+              style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#f4f7f6', cursor: 'pointer' }}
             >
               Painel TV
             </button>

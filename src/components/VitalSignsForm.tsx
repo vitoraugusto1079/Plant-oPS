@@ -374,7 +374,7 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
         disabled={isSubmitting}
         style={{
           padding: '12px 24px',
-          backgroundColor: '#059669',
+          backgroundColor: '#00995d',
           color: '#ffffff',
           fontWeight: 700,
           fontSize: '1rem',

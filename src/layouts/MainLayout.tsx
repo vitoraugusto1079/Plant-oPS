@@ -24,11 +24,11 @@ export const MainLayout: React.FC = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f4f7f6' }}>
       {/* Barra de Navegação Superior */}
       <header
         style={{
-          backgroundColor: '#0f172a',
+          backgroundColor: '#0a5f55',
           color: '#ffffff',
           padding: '12px 24px',
           display: 'flex',
@@ -49,7 +49,7 @@ export const MainLayout: React.FC = () => {
           <nav style={{ display: 'flex', gap: '14px', fontSize: '0.95rem' }}>
             {profile?.role === 'recepcao' && (
               <>
-                <Link to="/recepcao" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/recepcao" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Recepção / Pacientes
                 </Link>
               </>
@@ -57,13 +57,13 @@ export const MainLayout: React.FC = () => {
 
             {profile?.role === 'enfermagem' && (
               <>
-                <Link to="/triagem" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/triagem" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Triagem
                 </Link>
-                <Link to="/fila" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/fila" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Fila de Espera
                 </Link>
-                <Link to="/leitos" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/leitos" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Mapa de Leitos
                 </Link>
               </>
@@ -71,13 +71,13 @@ export const MainLayout: React.FC = () => {
 
             {profile?.role === 'medico' && (
               <>
-                <Link to="/medico" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/medico" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Consultório / Atendimento
                 </Link>
-                <Link to="/fila" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/fila" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Fila de Pacientes
                 </Link>
-                <Link to="/leitos" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/leitos" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Leitos
                 </Link>
               </>
@@ -85,13 +85,13 @@ export const MainLayout: React.FC = () => {
 
             {profile?.role === 'gestao' && (
               <>
-                <Link to="/gestao" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/gestao" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Indicadores de Gestão
                 </Link>
-                <Link to="/fila" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/fila" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Fila Geral
                 </Link>
-                <Link to="/leitos" style={{ color: '#93c5fd', textDecoration: 'none', fontWeight: 600 }}>
+                <Link to="/leitos" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
                   Status dos Leitos
                 </Link>
               </>

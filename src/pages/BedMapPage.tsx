@@ -85,7 +85,7 @@ export const BedMapPage: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <div>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '0 0 6px 0' }}>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0a5f55', margin: '0 0 6px 0' }}>
           Mapa de Leitos e Internação Hospitalar
         </h1>
         <p style={{ color: '#64748b', margin: 0 }}>
@@ -113,7 +113,7 @@ export const BedMapPage: React.FC = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 360px) 1fr', gap: '24px' }}>
         {/* Coluna Esquerda: Pacientes Aguardando Leito (Draggable) */}
         <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0', height: 'fit-content' }}>
-          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', margin: '0 0 8px 0' }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0a5f55', margin: '0 0 8px 0' }}>
             Aguardando Leito ({awaitingPatients.length})
           </h2>
           <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '0 0 12px 0' }}>
@@ -136,14 +136,14 @@ export const BedMapPage: React.FC = () => {
                   style={{
                     padding: '10px 12px',
                     borderRadius: '6px',
-                    backgroundColor: '#f8fafc',
+                    backgroundColor: '#f4f7f6',
                     border: '1px solid #cbd5e1',
                     cursor: 'grab',
                     boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <strong style={{ color: '#0f172a' }}>{enc.ticket_number}</strong>
+                    <strong style={{ color: '#0a5f55' }}>{enc.ticket_number}</strong>
                     <RiskBadge color={enc.priority_color} size="sm" showPriority={false} />
                   </div>
                   <div style={{ fontWeight: 600, color: '#334155', fontSize: '0.9rem', marginTop: '4px' }}>
@@ -152,7 +152,7 @@ export const BedMapPage: React.FC = () => {
                   <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '2px' }}>
                     Destino: {enc.destination}
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: '#0284c7', marginTop: '4px', fontWeight: 600 }}>
+                  <div style={{ fontSize: '0.75rem', color: '#00995d', marginTop: '4px', fontWeight: 600 }}>
                     ↔️ Arraste para um leito livre
                   </div>
                 </div>

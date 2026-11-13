@@ -11,7 +11,7 @@ export const KioskLayout: React.FC = () => {
     <div
       style={{
         minHeight: '100vh',
-        backgroundColor: '#090d16',
+        backgroundColor: '#06332e',
         color: '#ffffff',
         display: 'flex',
         flexDirection: 'column',

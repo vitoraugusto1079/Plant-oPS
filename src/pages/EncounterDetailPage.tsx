@@ -46,7 +46,7 @@ export const EncounterDetailPage: React.FC = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <span style={{ fontSize: '0.9rem', color: '#64748b' }}>Atendimento:</span>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '2px 0 0 0' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0a5f55', margin: '2px 0 0 0' }}>
             Senha {encounter.ticket_number} - {patient?.name}
           </h1>
         </div>
@@ -58,7 +58,7 @@ export const EncounterDetailPage: React.FC = () => {
               padding: '6px 14px',
               borderRadius: '6px',
               backgroundColor: '#e2e8f0',
-              color: '#1e293b',
+              color: '#0a5f55',
               fontWeight: 700,
             }}
           >
@@ -70,7 +70,7 @@ export const EncounterDetailPage: React.FC = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '20px' }}>
         {/* Dados do Paciente */}
         <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#1e293b' }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
             Identificação do Paciente
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.9rem' }}>
@@ -88,7 +88,7 @@ export const EncounterDetailPage: React.FC = () => {
 
         {/* Linha do Tempo e Horários do Atendimento (Item 4) */}
         <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#1e293b' }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
             Linha do Tempo das Etapas
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.9rem' }}>
@@ -113,13 +113,13 @@ export const EncounterDetailPage: React.FC = () => {
 
       {/* Histórico de Triagens / Reclassificações */}
       <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#1e293b' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
           Histórico de Triagens e Sinais Vitais ({encounter.triages?.length || 0})
         </h2>
         {encounter.triages && encounter.triages.length > 0 ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {encounter.triages.map((t, idx) => (
-              <div key={t.id} style={{ padding: '12px', borderRadius: '6px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
+              <div key={t.id} style={{ padding: '12px', borderRadius: '6px', backgroundColor: '#f4f7f6', border: '1px solid #e2e8f0' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>
                     {idx === 0 ? 'Triagem Inicial' : `Reclassificação #${idx}`} ({new Date(t.created_at).toLocaleTimeString()})
@@ -152,7 +152,7 @@ export const EncounterDetailPage: React.FC = () => {
 
       {/* Prescrições Médicas */}
       <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#1e293b' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
           Prescrições do Atendimento ({prescriptions.length})
         </h2>
         {prescriptions.length === 0 ? (

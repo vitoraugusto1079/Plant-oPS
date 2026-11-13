@@ -20,7 +20,7 @@ const BED_STATUS_CONFIG: Record<
 > = {
   livre: {
     label: 'Livre',
-    bg: '#ecfdf5',
+    bg: '#e6f5ef',
     border: '#10b981',
     text: '#065f46',
     icon: '🟢',
@@ -28,7 +28,7 @@ const BED_STATUS_CONFIG: Record<
   ocupado: {
     label: 'Ocupado',
     bg: '#eff6ff',
-    border: '#3b82f6',
+    border: '#00995d',
     text: '#1e40af',
     icon: '🔴',
   },
@@ -102,7 +102,7 @@ export const BedTile: React.FC<BedTileProps> = ({
     >
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <strong style={{ fontSize: '1rem', color: '#1e293b' }}>{bed.name}</strong>
+          <strong style={{ fontSize: '1rem', color: '#0a5f55' }}>{bed.name}</strong>
           <span
             style={{
               fontSize: '0.8rem',
@@ -134,7 +134,7 @@ export const BedTile: React.FC<BedTileProps> = ({
             </div>
           </div>
         ) : bed.status === 'livre' ? (
-          <div style={{ fontSize: '0.8rem', color: '#059669', fontStyle: 'italic' }}>
+          <div style={{ fontSize: '0.8rem', color: '#00995d', fontStyle: 'italic' }}>
             Arraste um paciente aqui para alocar
           </div>
         ) : bed.status === 'em_limpeza' ? (

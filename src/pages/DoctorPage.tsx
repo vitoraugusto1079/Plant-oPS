@@ -231,7 +231,7 @@ export const DoctorPage: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <label htmlFor="doctorRoom" style={{ fontWeight: 700, color: '#1e293b' }}>
+          <label htmlFor="doctorRoom" style={{ fontWeight: 700, color: '#0a5f55' }}>
             Meu Consultório:
           </label>
           <select
@@ -253,14 +253,14 @@ export const DoctorPage: React.FC = () => {
           onClick={() => callNextMutation.mutate()}
           style={{
             padding: '10px 24px',
-            backgroundColor: currentEncounter ? '#94a3b8' : '#2563eb',
+            backgroundColor: currentEncounter ? '#94a3b8' : '#00995d',
             color: '#ffffff',
             fontWeight: 800,
             fontSize: '1rem',
             borderRadius: '6px',
             border: 'none',
             cursor: currentEncounter ? 'not-allowed' : 'pointer',
-            boxShadow: '0 2px 4px rgba(37,99,235,0.2)',
+            boxShadow: '0 2px 4px rgba(0,153,93,0.2)',
           }}
         >
           {callNextMutation.isPending ? 'Chamando...' : '🔔 Chamar Próximo Paciente'}
@@ -295,13 +295,13 @@ export const DoctorPage: React.FC = () => {
             {/* Cartão de Identificação */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>
+                <span style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0a5f55' }}>
                   {currentEncounter.ticket_number}
                 </span>
                 <RiskBadge color={currentEncounter.priority_color} size="md" />
               </div>
 
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#1e293b', margin: '0 0 4px 0' }}>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0a5f55', margin: '0 0 4px 0' }}>
                 {patient?.name}
               </h2>
 
@@ -328,7 +328,7 @@ export const DoctorPage: React.FC = () => {
 
             {/* Sinais Vitais da Triagem Atual */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#1e293b' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
                 Triagem Atual (Sinais Vitais)
               </h3>
               {latestTriage ? (
@@ -355,7 +355,7 @@ export const DoctorPage: React.FC = () => {
 
             {/* Histórico de Atendimentos Anteriores */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 10px 0', color: '#1e293b' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 10px 0', color: '#0a5f55' }}>
                 Histórico de Passagens Anteriores ({patientHistory.length})
               </h3>
               {patientHistory.length === 0 ? (
@@ -365,7 +365,7 @@ export const DoctorPage: React.FC = () => {
               ) : (
                 <div style={{ maxHeight: '180px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {patientHistory.map((prev) => (
-                    <div key={prev.id} style={{ padding: '8px', borderRadius: '4px', backgroundColor: '#f8fafc', fontSize: '0.85rem', border: '1px solid #e2e8f0' }}>
+                    <div key={prev.id} style={{ padding: '8px', borderRadius: '4px', backgroundColor: '#f4f7f6', fontSize: '0.85rem', border: '1px solid #e2e8f0' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <strong>{new Date(prev.created_at).toLocaleDateString()} - {prev.ticket_number}</strong>
                         <span style={{ fontWeight: 600 }}>{prev.status}</span>
@@ -382,7 +382,7 @@ export const DoctorPage: React.FC = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {/* Evolução Médica (Texto Livre) */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-              <label htmlFor="evolutionText" style={{ display: 'block', fontWeight: 700, color: '#1e293b', marginBottom: '6px' }}>
+              <label htmlFor="evolutionText" style={{ display: 'block', fontWeight: 700, color: '#0a5f55', marginBottom: '6px' }}>
                 Registro da Evolução Médica (Texto Livre) *
               </label>
               <textarea
@@ -397,7 +397,7 @@ export const DoctorPage: React.FC = () => {
 
             {/* Prescrição Médica a partir do Catálogo com Validações */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#1e293b' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
                 Prescrição Médica (com Validação de Alergia e Dose Máxima)
               </h3>
 
@@ -475,7 +475,7 @@ export const DoctorPage: React.FC = () => {
                   onClick={handlePrescribe}
                   style={{
                     padding: '8px 16px',
-                    backgroundColor: '#0284c7',
+                    backgroundColor: '#00995d',
                     color: '#ffffff',
                     fontWeight: 700,
                     borderRadius: '6px',
@@ -497,7 +497,7 @@ export const DoctorPage: React.FC = () => {
                     Nenhum medicamento prescrito ainda.
                   </p>
                 ) : (
-                  <ul style={{ margin: '6px 0 0 0', paddingLeft: '20px', fontSize: '0.85rem', color: '#1e293b' }}>
+                  <ul style={{ margin: '6px 0 0 0', paddingLeft: '20px', fontSize: '0.85rem', color: '#0a5f55' }}>
                     {currentPrescriptions.map((p) => (
                       <li key={p.id}>
                         <strong>{p.medication?.name || 'Medicamento'}:</strong> {p.dose} {p.unit} - {p.route} ({p.frequency})
@@ -510,7 +510,7 @@ export const DoctorPage: React.FC = () => {
 
             {/* Definição do Destino do Paciente */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#1e293b' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
                 Definição do Destino do Paciente (Conduta Final)
               </h3>
 
@@ -529,7 +529,7 @@ export const DoctorPage: React.FC = () => {
                       padding: '10px 8px',
                       borderRadius: '6px',
                       border: selectedDestination === item.value ? '2px solid #059669' : '1px solid #cbd5e1',
-                      backgroundColor: selectedDestination === item.value ? '#ecfdf5' : '#f8fafc',
+                      backgroundColor: selectedDestination === item.value ? '#e6f5ef' : '#f4f7f6',
                       color: selectedDestination === item.value ? '#065f46' : '#334155',
                       fontWeight: 700,
                       cursor: 'pointer',
@@ -549,7 +549,7 @@ export const DoctorPage: React.FC = () => {
                 style={{
                   width: '100%',
                   padding: '12px',
-                  backgroundColor: '#059669',
+                  backgroundColor: '#00995d',
                   color: '#ffffff',
                   fontWeight: 800,
                   fontSize: '1rem',
@@ -575,7 +575,7 @@ export const DoctorPage: React.FC = () => {
           }}
         >
           <span style={{ fontSize: '3rem', display: 'block', marginBottom: '12px' }}>🩺</span>
-          <h2 style={{ color: '#1e293b', margin: '0 0 8px 0' }}>Consultório Disponível</h2>
+          <h2 style={{ color: '#0a5f55', margin: '0 0 8px 0' }}>Consultório Disponível</h2>
           <p style={{ margin: '0 0 16px 0', fontSize: '0.95rem' }}>
             Nenhum paciente em atendimento nesta tela. Clique no botão "Chamar Próximo Paciente" para atender o primeiro da fila.
           </p>

@@ -19,7 +19,7 @@ export const NotFoundPage: React.FC = () => {
       }}
     >
       <span style={{ fontSize: '4rem', marginBottom: '16px' }}>🔍</span>
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 900, color: '#0f172a', margin: '0 0 8px 0' }}>
+      <h1 style={{ fontSize: '2.5rem', fontWeight: 900, color: '#0a5f55', margin: '0 0 8px 0' }}>
         404 - Página Não Encontrada
       </h1>
       <p style={{ color: '#64748b', maxWidth: '480px', margin: '0 0 24px 0', fontSize: '1rem' }}>
@@ -29,7 +29,7 @@ export const NotFoundPage: React.FC = () => {
         to="/"
         style={{
           padding: '10px 20px',
-          backgroundColor: '#2563eb',
+          backgroundColor: '#00995d',
           color: '#ffffff',
           fontWeight: 700,
           borderRadius: '6px',

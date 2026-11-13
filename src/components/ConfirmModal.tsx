@@ -57,7 +57,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
           boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
         }}
       >
-        <h3 id="modal-title" style={{ marginTop: 0, color: '#0f172a' }}>
+        <h3 id="modal-title" style={{ marginTop: 0, color: '#0a5f55' }}>
           {title}
         </h3>
         <p style={{ color: '#475569', fontSize: '0.95rem', margin: '16px 0' }}>
@@ -85,7 +85,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
             onClick={onConfirm}
             style={{
               padding: '8px 16px',
-              backgroundColor: isDestructive ? '#dc2626' : '#2563eb',
+              backgroundColor: isDestructive ? '#dc2626' : '#00995d',
               color: '#ffffff',
               border: 'none',
               borderRadius: '6px',

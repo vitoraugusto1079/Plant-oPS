@@ -39,13 +39,13 @@ export const PatientDetailPage: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <div>
         <span style={{ fontSize: '0.9rem', color: '#64748b' }}>Ficha do Paciente</span>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '2px 0 0 0' }}>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0a5f55', margin: '2px 0 0 0' }}>
           {patient.name}
         </h1>
       </div>
 
       <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#1e293b' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
           Dados Cadastrais
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', fontSize: '0.9rem' }}>
@@ -69,7 +69,7 @@ export const PatientDetailPage: React.FC = () => {
 
       {/* Histórico de Atendimentos */}
       <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 16px 0', color: '#1e293b' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 16px 0', color: '#0a5f55' }}>
           Histórico de Passagens no Pronto-Socorro ({encounters.length})
         </h2>
 
@@ -89,12 +89,12 @@ export const PatientDetailPage: React.FC = () => {
                   padding: '12px 16px',
                   borderRadius: '6px',
                   border: '1px solid #e2e8f0',
-                  backgroundColor: '#f8fafc',
+                  backgroundColor: '#f4f7f6',
                 }}
               >
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <strong style={{ fontSize: '1.1rem', color: '#0f172a' }}>{enc.ticket_number}</strong>
+                    <strong style={{ fontSize: '1.1rem', color: '#0a5f55' }}>{enc.ticket_number}</strong>
                     <span style={{ fontSize: '0.85rem', color: '#64748b' }}>
                       {new Date(enc.created_at).toLocaleString()}
                     </span>
@@ -113,7 +113,7 @@ export const PatientDetailPage: React.FC = () => {
                     to={`/atendimentos/${enc.id}`}
                     style={{
                       padding: '4px 10px',
-                      backgroundColor: '#0284c7',
+                      backgroundColor: '#00995d',
                       color: '#ffffff',
                       borderRadius: '4px',
                       textDecoration: 'none',
