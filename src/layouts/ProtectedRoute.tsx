@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Rota Protegida (ProtectedRoute) (Item 3.3)
-// Garante autenticação e controle de acesso estrito por perfil (RBAC)
-// ==============================================================================
-
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -33,7 +28,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   if (allowedRoles && allowedRoles.length > 0 && !allowedRoles.includes(profile.role)) {
-    // Redireciona o usuário para a área específica do seu perfil
     const roleRoutes: Record<UserRole, string> = {
       recepcao: '/recepcao',
       enfermagem: '/triagem',

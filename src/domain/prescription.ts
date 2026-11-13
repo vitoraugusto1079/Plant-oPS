@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Regras de Domínio: Validação de Prescrição Médica (Item 2.5 & 3.7)
-// Bloqueio rigoroso de alergias e superdosagem
-// ==============================================================================
-
 import { Medication, PatientAllergy } from './types';
 
 export interface AllergyValidationResult {
@@ -18,9 +13,6 @@ export interface DoseValidationResult {
   reason?: string;
 }
 
-/**
- * Normaliza strings para comparação insensível a acentos e maiúsculas.
- */
 function normalizeString(str: string): string {
   return str
     .toLowerCase()
@@ -29,9 +21,6 @@ function normalizeString(str: string): string {
     .trim();
 }
 
-/**
- * Valida se o paciente possui alergia ao medicamento prescrito.
- */
 export function validateMedicationAllergy(
   allergies: (PatientAllergy | string)[] = [],
   medicationName: string
@@ -54,9 +43,6 @@ export function validateMedicationAllergy(
   return { isAllergic: false };
 }
 
-/**
- * Valida se a dose prescrita ultrapassa a dose máxima permitida no catálogo.
- */
 export function validateMedicationDose(
   dose: number,
   medication: Medication

@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Serviço de Chamadas da Sala de Espera (Item 2.7)
-// NUNCA expõe nomes de pacientes no painel
-// ==============================================================================
-
 import { supabase } from './supabaseClient';
 import { Call, TriageColor } from '../domain/types';
 
@@ -12,9 +7,6 @@ export interface AverageWaitStats {
 }
 
 export const callService = {
-  /**
-   * Obtém a chamada atual e o histórico recente (últimas 6 chamadas)
-   */
   async getRecentCalls(limit = 6): Promise<Call[]> {
     const { data, error } = await supabase
       .from('calls')
@@ -26,9 +18,6 @@ export const callService = {
     return (data || []) as Call[];
   },
 
-  /**
-   * Calcula o tempo médio de espera atual por cor para os pacientes em atendimento ou concluídos hoje
-   */
   async getAverageWaitTimes(): Promise<Record<TriageColor, number>> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);

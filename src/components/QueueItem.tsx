@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Componente: QueueItem (Item 3.2 & 2.4)
-// Item da fila de atendimento exibindo dados vitais, tempo de espera e alertas
-// ==============================================================================
-
 import React from 'react';
 import { Encounter } from '../domain/types';
 import { calculateAge, hasAgePriority, isOverdue } from '../domain/queue';

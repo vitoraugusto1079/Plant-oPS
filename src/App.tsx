@@ -1,7 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Configuração de Rotas e Providers (React Router & TanStack Query)
-// ==============================================================================
-
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -57,18 +53,14 @@ export const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          {/* Rota Pública de Login */}
           <Route path="/login" element={<LoginPage />} />
 
-          {/* Rota Raiz com Redirecionamento por Perfil */}
           <Route path="/" element={<HomeRedirect />} />
 
-          {/* Rota Quiosque para TV da Sala de Espera (Sem Menus) */}
           <Route element={<KioskLayout />}>
             <Route path="/painel" element={<KioskPanelPage />} />
           </Route>
 
-          {/* Rotas Protegidas no Layout Principal */}
           <Route
             element={
               <ProtectedRoute>
@@ -76,7 +68,6 @@ export const App: React.FC = () => {
               </ProtectedRoute>
             }
           >
-            {/* Recepção */}
             <Route
               path="/recepcao"
               element={
@@ -86,7 +77,6 @@ export const App: React.FC = () => {
               }
             />
 
-            {/* Enfermagem */}
             <Route
               path="/triagem"
               element={
@@ -96,7 +86,6 @@ export const App: React.FC = () => {
               }
             />
 
-            {/* Fila Geral */}
             <Route
               path="/fila"
               element={
@@ -106,7 +95,6 @@ export const App: React.FC = () => {
               }
             />
 
-            {/* Médico */}
             <Route
               path="/medico"
               element={
@@ -116,7 +104,6 @@ export const App: React.FC = () => {
               }
             />
 
-            {/* Mapa de Leitos */}
             <Route
               path="/leitos"
               element={
@@ -126,7 +113,6 @@ export const App: React.FC = () => {
               }
             />
 
-            {/* Gestão */}
             <Route
               path="/gestao"
               element={
@@ -136,7 +122,6 @@ export const App: React.FC = () => {
               }
             />
 
-            {/* Rotas com Parâmetros */}
             <Route
               path="/atendimentos/:id"
               element={
@@ -155,7 +140,6 @@ export const App: React.FC = () => {
             />
           </Route>
 
-          {/* 404 Página Não Encontrada */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

@@ -1,7 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página de Detalhes do Paciente (Item 3.3: /pacientes/:id)
-// ==============================================================================
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -67,7 +63,6 @@ export const PatientDetailPage: React.FC = () => {
         )}
       </div>
 
-      {/* Histórico de Atendimentos */}
       <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
         <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 16px 0', color: '#0a5f55' }}>
           Histórico de Passagens no Pronto-Socorro ({encounters.length})

@@ -1,15 +1,7 @@
-// ==============================================================================
-// PlantãoPS - Serviço de Atendimentos e Fila (Item 2.2, 2.3, 2.4, 2.5)
-// Comunicação encapsulada com Supabase e RPCs atômicas
-// ==============================================================================
-
 import { supabase } from './supabaseClient';
 import { Encounter, PatientDestination, TriageColor, VitalSigns } from '../domain/types';
 
 export const encounterService = {
-  /**
-   * Abre um novo atendimento gerando senha sequencial atômica via RPC
-   */
   async createEncounter(patientId: string): Promise<Encounter> {
     const { data, error } = await supabase.rpc('create_encounter', {
       p_patient_id: patientId,
@@ -19,9 +11,6 @@ export const encounterService = {
     return data as Encounter;
   },
 
-  /**
-   * Lista todos os atendimentos iniciados na data atual
-   */
   async getTodayEncounters(): Promise<Encounter[]> {
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
@@ -36,9 +25,6 @@ export const encounterService = {
     return (data || []) as Encounter[];
   },
 
-  /**
-   * Lista pacientes aguardando triagem por ordem de chegada (Item 2.3)
-   */
   async getWaitingTriage(): Promise<Encounter[]> {
     const { data, error } = await supabase
       .from('encounters')
@@ -50,9 +36,6 @@ export const encounterService = {
     return (data || []) as Encounter[];
   },
 
-  /**
-   * Lista pacientes aguardando consulta médica (Fila de atendimento)
-   */
   async getWaitingDoctorQueue(): Promise<Encounter[]> {
     const { data, error } = await supabase
       .from('encounters')
@@ -64,9 +47,6 @@ export const encounterService = {
     return (data || []) as Encounter[];
   },
 
-  /**
-   * Obtém detalhes completos de um atendimento por ID
-   */
   async getEncounterById(id: string): Promise<Encounter | null> {
     const { data, error } = await supabase
       .from('encounters')
@@ -82,9 +62,6 @@ export const encounterService = {
     return data as Encounter;
   },
 
-  /**
-   * Registra triagem inicial ou reclassificação via RPC atômica
-   */
   async saveTriage(params: {
     encounterId: string;
     vitals: VitalSigns;
@@ -111,9 +88,6 @@ export const encounterService = {
     return data as Encounter;
   },
 
-  /**
-   * Chama o próximo paciente da fila atomicamente via FOR UPDATE SKIP LOCKED (Item 2.5)
-   */
   async callNextPatient(room: string): Promise<{ success: boolean; encounter?: Encounter; message?: string }> {
     const { data, error } = await supabase.rpc('call_next_patient', {
       p_doctor_room: room,
@@ -123,9 +97,6 @@ export const encounterService = {
     return data;
   },
 
-  /**
-   * Conclui a conduta médica definindo o destino do paciente (Item 2.5)
-   */
   async concludeMedicalEncounter(params: {
     encounterId: string;
     destination: PatientDestination;
@@ -141,9 +112,6 @@ export const encounterService = {
     return data as Encounter;
   },
 
-  /**
-   * Cancela atendimento por desistência
-   */
   async cancelEncounter(encounterId: string, reason?: string): Promise<Encounter> {
     const { data, error } = await supabase.rpc('cancel_encounter', {
       p_encounter_id: encounterId,
@@ -154,9 +122,6 @@ export const encounterService = {
     return data as Encounter;
   },
 
-  /**
-   * Busca histórico de atendimentos anteriores do paciente
-   */
   async getPatientHistory(patientId: string, currentEncounterId?: string): Promise<Encounter[]> {
     let query = supabase
       .from('encounters')

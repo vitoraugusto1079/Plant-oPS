@@ -1,7 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Hook de Autenticação (useAuth)
-// ==============================================================================
-
 import { useState, useEffect, useCallback } from 'react';
 import { UserProfile, UserRole } from '../domain/types';
 import { authService } from '../services/authService';
@@ -13,7 +9,6 @@ export function useAuth() {
   useEffect(() => {
     let mounted = true;
 
-    // Carregar perfil inicial
     authService.getCurrentProfile().then((p) => {
       if (mounted) {
         setProfile(p);
@@ -26,7 +21,6 @@ export function useAuth() {
       }
     });
 
-    // Observar mudanças na sessão
     const { data: { subscription } } = authService.onAuthStateChange((p) => {
       if (mounted) {
         setProfile(p);

@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Regras de Domínio: Máquina de Estados e Transições (Item 2.9c)
-// Só são permitidas as transições especificadas na regra. Qualquer outra deve ser recusada.
-// ==============================================================================
-
 import { EncounterStatus } from './types';
 
 export const ALLOWED_TRANSITIONS: Record<EncounterStatus, EncounterStatus[]> = {
@@ -36,18 +31,12 @@ export const ALLOWED_TRANSITIONS: Record<EncounterStatus, EncounterStatus[]> = {
   'Cancelado': [],
 };
 
-/**
- * Retorna se uma transição entre estados de atendimento é estritamente permitida.
- */
 export function canTransition(from: EncounterStatus, to: EncounterStatus): boolean {
   if (from === to) return false;
   const allowed = ALLOWED_TRANSITIONS[from] || [];
   return allowed.includes(to);
 }
 
-/**
- * Valida uma transição de status. Dispara erro explicativo caso seja proibida.
- */
 export function validateTransition(from: EncounterStatus, to: EncounterStatus): void {
   if (!canTransition(from, to)) {
     throw new Error(

@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Cliente Supabase
-// A chave service_role NUNCA é utilizada no cliente frontend.
-// ==============================================================================
-
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';

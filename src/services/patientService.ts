@@ -1,7 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Serviço de Pacientes e Alergias (Item 2.2)
-// ==============================================================================
-
 import { supabase } from './supabaseClient';
 import { Patient, PatientAllergy } from '../domain/types';
 
@@ -14,9 +10,6 @@ export interface CreatePatientInput {
 }
 
 export const patientService = {
-  /**
-   * Busca pacientes por nome ou data de nascimento
-   */
   async searchPatients(query: string): Promise<Patient[]> {
     if (!query || query.trim().length === 0) {
       const { data, error } = await supabase
@@ -37,7 +30,6 @@ export const patientService = {
       .limit(30);
 
     if (error) {
-      // Se a data de nascimento for inválida para o formato de date, busca apenas por nome
       const { data: fallbackData, error: fallbackError } = await supabase
         .from('patients')
         .select('*, allergies:patient_allergies(*)')
@@ -52,9 +44,6 @@ export const patientService = {
     return (data || []) as Patient[];
   },
 
-  /**
-   * Cadastra um novo paciente com suas alergias conhecidas
-   */
   async createPatient(input: CreatePatientInput): Promise<Patient> {
     const { data: patient, error: patientError } = await supabase
       .from('patients')
@@ -88,9 +77,6 @@ export const patientService = {
     return patient as Patient;
   },
 
-  /**
-   * Busca paciente por ID
-   */
   async getPatientById(id: string): Promise<Patient | null> {
     const { data, error } = await supabase
       .from('patients')
@@ -102,9 +88,6 @@ export const patientService = {
     return data as Patient;
   },
 
-  /**
-   * Busca alergias de um paciente
-   */
   async getPatientAllergies(patientId: string): Promise<PatientAllergy[]> {
     const { data, error } = await supabase
       .from('patient_allergies')

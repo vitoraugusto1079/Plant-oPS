@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Componente: ConfirmModal (Item 3.10)
-// Diálogo de confirmação para ações críticas (alta, transferência, cancelamento)
-// ==============================================================================
-
 import React from 'react';
 
 export interface ConfirmModalProps {

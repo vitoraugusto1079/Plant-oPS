@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Componente: BedTile (Item 3.2 & 2.6)
-// Exibe o leito no mapa com seu status, dados do paciente e ação de higienização
-// ==============================================================================
-
 import React, { useState } from 'react';
 import { Bed, BedStatus } from '../domain/types';
 

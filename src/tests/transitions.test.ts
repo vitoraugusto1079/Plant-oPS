@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Testes de Domínio: Máquina de Estados e Transições (Item 3.9)
-// Garante conformidade estrita com o item 2.9c
-// ==============================================================================
-
 import { describe, it, expect } from 'vitest';
 import { canTransition, validateTransition } from '../domain/transitions';
 

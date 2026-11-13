@@ -1,7 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Definições de Tipos do Domínio
-// ==============================================================================
-
 export type UserRole = 'recepcao' | 'enfermagem' | 'medico' | 'gestao' | 'painel';
 
 export type TriageColor = 'Vermelho' | 'Laranja' | 'Amarelo' | 'Verde' | 'Azul';
@@ -55,7 +51,7 @@ export interface VitalSigns {
   heartRate: number;
   temperature: number;
   oxygenSaturation: number;
-  painScale: number; // 0 - 10
+  painScale: number;
   consciousnessLevel: ConsciousnessLevel;
   chiefComplaint: string;
 }

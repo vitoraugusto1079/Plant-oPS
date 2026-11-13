@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Hook da Fila de Atendimento (useQueue)
-// Integra TanStack Query, Supabase Realtime e Ordenação de Domínio
-// ==============================================================================
-
 import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { encounterService } from '../services/encounterService';
@@ -13,7 +8,6 @@ import { useRealtimeTable } from './useRealtimeTable';
 export function useQueue() {
   const [selectedColorFilter, setSelectedColorFilter] = useState<TriageColor | 'TODAS'>('TODAS');
 
-  // React Query para buscar a fila de espera do médico
   const {
     data: encounters = [],
     isLoading,
@@ -23,19 +17,16 @@ export function useQueue() {
   } = useQuery({
     queryKey: ['doctor-queue'],
     queryFn: () => encounterService.getWaitingDoctorQueue(),
-    refetchInterval: 10000, // Revalidação a cada 10s como garantia secundária
+    refetchInterval: 10000,
   });
 
-  // Escuta em tempo real nas tabelas encounters e triages
   useRealtimeTable('encounters', 'doctor-queue');
   useRealtimeTable('triages', 'doctor-queue');
 
-  // 1. Ordenação rigorosa pelo domínio (Prioridade por Cor > Tempo > Idade)
   const sortedQueue = useMemo(() => {
     return sortQueue(encounters);
   }, [encounters]);
 
-  // 2. Contadores por cor
   const colorCounts = useMemo(() => {
     const counts: Record<TriageColor, number> = {
       Vermelho: 0,
@@ -54,7 +45,6 @@ export function useQueue() {
     return counts;
   }, [encounters]);
 
-  // 3. Fila filtrada pela cor selecionada
   const filteredQueue = useMemo(() => {
     if (selectedColorFilter === 'TODAS') {
       return sortedQueue;

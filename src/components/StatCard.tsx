@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Componente: StatCard (Item 3.2 & 2.8)
-// Card de indicadores chave para o Painel da Gestão
-// ==============================================================================
-
 import React from 'react';
 
 export interface StatCardProps {

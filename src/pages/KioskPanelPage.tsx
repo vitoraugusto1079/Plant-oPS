@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página do Painel de Chamadas da Sala de Espera (Item 2.7 & 4)
-// Modo TV / Quiosque em tempo real, SEM NOME DO PACIENTE, alerta sonoro
-// ==============================================================================
-
 import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { callService } from '../services/callService';
@@ -15,24 +10,20 @@ export const KioskPanelPage: React.FC = () => {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
 
-  // 1. Chamadas Recentes (A chamada atual + 5 anteriores)
   const { data: calls = [], refetch } = useQuery({
     queryKey: ['kiosk-calls'],
     queryFn: () => callService.getRecentCalls(6),
     refetchInterval: 5000,
   });
 
-  // 2. Tempo Médio de Espera Atual por Cor
   const { data: avgWait = { Vermelho: 0, Laranja: 0, Amarelo: 0, Verde: 0, Azul: 0 } } = useQuery({
     queryKey: ['kiosk-avg-wait'],
     queryFn: () => callService.getAverageWaitTimes(),
     refetchInterval: 30000,
   });
 
-  // Sincronização em tempo real na tabela 'calls'
   useRealtimeTable('calls', 'kiosk-calls');
 
-  // Função para tocar bipe sonoro de chamada (Web Audio API)
   const playChime = () => {
     try {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
@@ -49,9 +40,8 @@ export const KioskPanelPage: React.FC = () => {
       const gain = ctx.createGain();
 
       osc.type = 'sine';
-      // Ding-dong chord
-      osc.frequency.setValueAtTime(587.33, now); // D5
-      osc.frequency.setValueAtTime(880.00, now + 0.2); // A5
+      osc.frequency.setValueAtTime(587.33, now);
+      osc.frequency.setValueAtTime(880.00, now + 0.2);
 
       gain.gain.setValueAtTime(0.3, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
@@ -69,7 +59,6 @@ export const KioskPanelPage: React.FC = () => {
   const currentCall: Call | undefined = calls[0];
   const previousCalls: Call[] = calls.slice(1, 6);
 
-  // Efeito para disparar aviso sonoro quando surgir nova chamada
   useEffect(() => {
     if (currentCall && currentCall.id !== lastCallId) {
       if (lastCallId !== null && soundEnabled) {
@@ -94,7 +83,6 @@ export const KioskPanelPage: React.FC = () => {
         fontFamily: 'system-ui, -apple-system, sans-serif',
       }}
     >
-      {/* Topo: Cabeçalho com Relógio e Botão de Áudio */}
       <header
         style={{
           display: 'flex',
@@ -140,9 +128,7 @@ export const KioskPanelPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Centro: Chamada Atual em Destaque Gigante e Últimas Chamadas */}
       <main style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '32px', margin: '24px 0', flex: 1 }}>
-        {/* Painel de Destaque da Chamada Atual */}
         <div
           style={{
             backgroundColor: '#0a4a42',
@@ -197,7 +183,6 @@ export const KioskPanelPage: React.FC = () => {
           )}
         </div>
 
-        {/* Painel das Últimas 5 Chamadas */}
         <div
           style={{
             backgroundColor: '#0a4a42',
@@ -242,7 +227,6 @@ export const KioskPanelPage: React.FC = () => {
         </div>
       </main>
 
-      {/* Rodapé: Tempo Médio de Espera Atual por Cor (Item 2.7) */}
       <footer
         style={{
           borderTop: '2px solid #1e293b',

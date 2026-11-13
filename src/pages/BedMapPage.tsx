@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página do Mapa de Leitos (Item 2.6)
-// Visualização das alas (Sala Vermelha e Observação), alocação concorrente e higienização
-// ==============================================================================
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { bedService } from '../services/bedService';
@@ -18,25 +13,21 @@ export const BedMapPage: React.FC = () => {
   const [draggedEncounterId, setDraggedEncounterId] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  // 1. Lista de leitos
   const { data: beds = [], isLoading: isLoadingBeds } = useQuery({
     queryKey: ['beds-map'],
     queryFn: () => bedService.listBeds(),
     refetchInterval: 10000,
   });
 
-  // 2. Pacientes aguardando leito (destino observação ou internação)
   const { data: awaitingPatients = [], isLoading: isLoadingAwaiting } = useQuery({
     queryKey: ['patients-awaiting-bed'],
     queryFn: () => bedService.getPatientsAwaitingBed(),
   });
 
-  // Atualizações em tempo real nas tabelas beds, bed_assignments e encounters
   useRealtimeTable('beds', 'beds-map');
   useRealtimeTable('bed_assignments', 'beds-map');
   useRealtimeTable('encounters', 'patients-awaiting-bed');
 
-  // Mutação: Alocar Paciente no Leito (RPC atômica assign_bed)
   const assignBedMutation = useMutation({
     mutationFn: async ({ bedId, encounterId }: { bedId: string; encounterId: string }) => {
       await bedService.assignBed(encounterId, bedId);
@@ -53,7 +44,6 @@ export const BedMapPage: React.FC = () => {
     },
   });
 
-  // Mutação: Limpeza de Leito (RPC clean_bed)
   const cleanBedMutation = useMutation({
     mutationFn: async (bedId: string) => {
       await bedService.cleanBed(bedId);
@@ -109,9 +99,7 @@ export const BedMapPage: React.FC = () => {
         </div>
       )}
 
-      {/* Layout em Duas Colunas: Pacientes Aguardando à Esquerda e Mapa de Leitos à Direita */}
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 360px) 1fr', gap: '24px' }}>
-        {/* Coluna Esquerda: Pacientes Aguardando Leito (Draggable) */}
         <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0', height: 'fit-content' }}>
           <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0a5f55', margin: '0 0 8px 0' }}>
             Aguardando Leito ({awaitingPatients.length})
@@ -161,9 +149,7 @@ export const BedMapPage: React.FC = () => {
           )}
         </div>
 
-        {/* Coluna Direita: Mapa de Leitos por Ala */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {/* Ala Sala Vermelha */}
           <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
               <span style={{ fontSize: '1.25rem' }}>🚨</span>
@@ -185,7 +171,6 @@ export const BedMapPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Ala Observação */}
           <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
               <span style={{ fontSize: '1.25rem' }}>🛏️</span>

@@ -1,11 +1,3 @@
--- ==============================================================================
--- PlantãoPS - Funções RPC Atômicas (PL/pgSQL)
--- Regras de integridade transacional e operações concorrentes seguras
--- ==============================================================================
-
--- ------------------------------------------------------------------------------
--- 1. Obter Perfil do Usuário Autenticado
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION get_current_user_role()
 RETURNS user_role
 LANGUAGE plpgsql
@@ -20,9 +12,6 @@ BEGIN
 END;
 $$;
 
--- ------------------------------------------------------------------------------
--- 2. Abrir Atendimento com Geração de Senha Sequencial Diária
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION create_encounter(
   p_patient_id UUID
 )
@@ -36,24 +25,20 @@ DECLARE
   v_ticket TEXT;
   v_encounter encounters%ROWTYPE;
 BEGIN
-  -- Validar se o paciente já possui atendimento ativo
   IF EXISTS (
-    SELECT 1 FROM encounters 
-    WHERE patient_id = p_patient_id 
+    SELECT 1 FROM encounters
+    WHERE patient_id = p_patient_id
       AND status NOT IN ('Alta', 'Transferido', 'Cancelado')
   ) THEN
     RAISE EXCEPTION 'Paciente já possui um atendimento ativo em andamento.';
   END IF;
 
-  -- Calcular o próximo número sequencial do dia
   SELECT COALESCE(COUNT(*), 0) + 1 INTO v_next_seq
   FROM encounters
   WHERE created_at >= v_today_start;
 
-  -- Formatar senha (ex: A001, A023)
   v_ticket := 'A' || LPAD(v_next_seq::TEXT, 3, '0');
 
-  -- Inserir atendimento
   INSERT INTO encounters (
     patient_id,
     ticket_number,
@@ -64,7 +49,6 @@ BEGIN
     'Aguardando triagem'
   ) RETURNING * INTO v_encounter;
 
-  -- Registrar evento
   INSERT INTO encounter_events (
     encounter_id,
     from_status,
@@ -83,9 +67,6 @@ BEGIN
 END;
 $$;
 
--- ------------------------------------------------------------------------------
--- 3. Salvar Triagem / Reclassificação
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION save_triage(
   p_encounter_id UUID,
   p_systolic_bp INT,
@@ -110,7 +91,6 @@ DECLARE
   v_new_status encounter_status;
   v_triage triages%ROWTYPE;
 BEGIN
-  -- Buscar e travar o atendimento
   SELECT * INTO v_encounter
   FROM encounters
   WHERE id = p_encounter_id
@@ -120,7 +100,6 @@ BEGIN
     RAISE EXCEPTION 'Atendimento não encontrado.';
   END IF;
 
-  -- Validar transição permitida (2.9c)
   IF v_encounter.status = 'Aguardando triagem' THEN
     v_new_status := 'Aguardando médico';
   ELSIF v_encounter.status IN ('Aguardando médico', 'Aguardando médico (reclassificação)') THEN
@@ -130,12 +109,10 @@ BEGIN
     RAISE EXCEPTION 'Transição de status inválida para triagem a partir de: %', v_encounter.status;
   END IF;
 
-  -- Se a cor final for diferente da sugerida, a justificativa é obrigatória
   IF p_final_color <> p_suggested_color AND (p_justification IS NULL OR trim(p_justification) = '') THEN
     RAISE EXCEPTION 'Justificativa é obrigatória quando a cor final for diferente da sugerida.';
   END IF;
 
-  -- Inserir registro de triagem
   INSERT INTO triages (
     encounter_id,
     nurse_id,
@@ -166,7 +143,6 @@ BEGIN
     p_justification
   ) RETURNING * INTO v_triage;
 
-  -- Atualizar atendimento
   UPDATE encounters
   SET status = v_new_status,
       priority_color = p_final_color,
@@ -174,7 +150,6 @@ BEGIN
   WHERE id = p_encounter_id
   RETURNING * INTO v_encounter;
 
-  -- Registrar evento
   INSERT INTO encounter_events (
     encounter_id,
     from_status,
@@ -186,9 +161,9 @@ BEGIN
     v_encounter.status,
     v_new_status,
     auth.uid(),
-    CASE 
-      WHEN v_is_reclassification THEN 'Reclassificação de risco para ' || p_final_color::TEXT 
-      ELSE 'Triagem inicial com classificação ' || p_final_color::TEXT 
+    CASE
+      WHEN v_is_reclassification THEN 'Reclassificação de risco para ' || p_final_color::TEXT
+      ELSE 'Triagem inicial com classificação ' || p_final_color::TEXT
     END
   );
 
@@ -196,9 +171,6 @@ BEGIN
 END;
 $$;
 
--- ------------------------------------------------------------------------------
--- 4. Chamar Próximo Paciente (Operação Atômica com FOR UPDATE SKIP LOCKED)
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION call_next_patient(
   p_doctor_room TEXT
 )
@@ -215,15 +187,11 @@ BEGIN
     RAISE EXCEPTION 'O consultório médico deve ser informado.';
   END IF;
 
-  -- Seleciona e trava atomicamente o primeiro paciente da fila conforme regras de negócio (2.9b)
-  -- 1. Por cor (Vermelho, Laranja, Amarelo, Verde, Azul)
-  -- 2. Maior tempo de espera (triaged_at mais antigo)
-  -- 3. Desempate: idade >= 60 ou < 12 anos
   SELECT e.id INTO v_encounter_id
   FROM encounters e
   INNER JOIN patients p ON e.patient_id = p.id
   WHERE e.status IN ('Aguardando médico', 'Aguardando médico (reclassificação)')
-  ORDER BY 
+  ORDER BY
     CASE e.priority_color
       WHEN 'Vermelho' THEN 1
       WHEN 'Laranja'  THEN 2
@@ -233,7 +201,7 @@ BEGIN
       ELSE 6
     END ASC,
     e.triaged_at ASC,
-    CASE 
+    CASE
       WHEN (EXTRACT(YEAR FROM age(CURRENT_DATE, p.birth_date)) >= 60 OR EXTRACT(YEAR FROM age(CURRENT_DATE, p.birth_date)) < 12) THEN 0
       ELSE 1
     END ASC,
@@ -245,7 +213,6 @@ BEGIN
     RETURN jsonb_build_object('success', false, 'message', 'Nenhum paciente aguardando atendimento.');
   END IF;
 
-  -- Atualizar atendimento
   UPDATE encounters
   SET status = 'Em atendimento',
       doctor_id = auth.uid(),
@@ -254,7 +221,6 @@ BEGIN
   WHERE id = v_encounter_id
   RETURNING * INTO v_encounter;
 
-  -- Inserir no painel de chamadas
   INSERT INTO calls (
     encounter_id,
     ticket_number,
@@ -265,7 +231,6 @@ BEGIN
     p_doctor_room
   );
 
-  -- Registrar evento
   INSERT INTO encounter_events (
     encounter_id,
     from_status,
@@ -287,9 +252,6 @@ BEGIN
 END;
 $$;
 
--- ------------------------------------------------------------------------------
--- 5. Prescrever Medicamento com Validações Rigorosas no Banco (Alergia e Dose)
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION prescribe_medication(
   p_encounter_id UUID,
   p_medication_id UUID,
@@ -309,7 +271,6 @@ DECLARE
   v_allergy_match TEXT;
   v_prescription prescriptions%ROWTYPE;
 BEGIN
-  -- Validar existência e situação do atendimento
   SELECT * INTO v_encounter FROM encounters WHERE id = p_encounter_id;
   IF NOT FOUND THEN
     RAISE EXCEPTION 'Atendimento não encontrado.';
@@ -319,13 +280,11 @@ BEGIN
     RAISE EXCEPTION 'Prescrição permitida apenas para atendimentos Em atendimento ou Em observação.';
   END IF;
 
-  -- Buscar dados do medicamento
   SELECT * INTO v_medication FROM medications WHERE id = p_medication_id;
   IF NOT FOUND THEN
     RAISE EXCEPTION 'Medicamento não cadastrado no catálogo.';
   END IF;
 
-  -- 1. Validação de Alergia no Banco (Segurança item 3.7)
   SELECT a.allergen_name INTO v_allergy_match
   FROM patient_allergies a
   WHERE a.patient_id = v_encounter.patient_id
@@ -339,13 +298,11 @@ BEGIN
     RAISE EXCEPTION 'BLOQUEIO DE SEGURANÇA: Paciente possui alergia conhecida a "%". Prescrição bloqueada!', v_allergy_match;
   END IF;
 
-  -- 2. Validação de Dose Máxima no Banco (Segurança item 3.7)
   IF p_dose > v_medication.max_dose THEN
     RAISE EXCEPTION 'BLOQUEIO DE SEGURANÇA: Dose informada (% %) excede a dose máxima permitida (% %)! Prescrição bloqueada.',
       p_dose, p_unit, v_medication.max_dose, v_medication.unit;
   END IF;
 
-  -- Inserir prescrição
   INSERT INTO prescriptions (
     encounter_id,
     medication_id,
@@ -370,9 +327,6 @@ BEGIN
 END;
 $$;
 
--- ------------------------------------------------------------------------------
--- 6. Encaminhamento e Conclusão de Atendimento Médico (Destino do Paciente)
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION conclude_medical_encounter(
   p_encounter_id UUID,
   p_destination patient_destination,
@@ -397,24 +351,20 @@ BEGIN
     RAISE EXCEPTION 'Atendimento não está em fase médica (atual: %)', v_encounter.status;
   END IF;
 
-  -- Mapear transição de status permitida pelo item 2.9c
   IF p_destination = 'alta' THEN
     v_new_status := 'Alta';
   ELSIF p_destination = 'transferência' THEN
     v_new_status := 'Transferido';
   ELSIF p_destination IN ('observação', 'internação') THEN
     IF v_encounter.status = 'Em observação' THEN
-      -- Se já está em observação, pode permanecer ou ser mantido
       v_new_status := 'Em observação';
     ELSE
-      -- De 'Em atendimento' vai para 'Aguardando leito'
       v_new_status := 'Aguardando leito';
     END IF;
   ELSE
     RAISE EXCEPTION 'Destino inválido: %', p_destination;
   END IF;
 
-  -- Se o paciente recebeu Alta ou Transferência e possuía leito ocupado, desocupar para 'em_limpeza'
   IF v_new_status IN ('Alta', 'Transferido') THEN
     SELECT id, bed_id INTO v_active_bed_assignment_id, v_active_bed_id
     FROM bed_assignments
@@ -431,7 +381,6 @@ BEGIN
     END IF;
   END IF;
 
-  -- Atualizar atendimento
   UPDATE encounters
   SET status = v_new_status,
       destination = p_destination,
@@ -440,7 +389,6 @@ BEGIN
   WHERE id = p_encounter_id
   RETURNING * INTO v_encounter;
 
-  -- Registrar evento
   INSERT INTO encounter_events (
     encounter_id,
     from_status,
@@ -459,9 +407,6 @@ BEGIN
 END;
 $$;
 
--- ------------------------------------------------------------------------------
--- 7. Alocar Paciente no Leito (Atômico com Lock de Leito)
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION assign_bed(
   p_encounter_id UUID,
   p_bed_id UUID
@@ -475,7 +420,6 @@ DECLARE
   v_bed beds%ROWTYPE;
   v_assignment bed_assignments%ROWTYPE;
 BEGIN
-  -- Travar e validar atendimento
   SELECT * INTO v_encounter FROM encounters WHERE id = p_encounter_id FOR UPDATE;
   IF NOT FOUND THEN
     RAISE EXCEPTION 'Atendimento não encontrado.';
@@ -485,7 +429,6 @@ BEGIN
     RAISE EXCEPTION 'Apenas pacientes com status "Aguardando leito" podem ser alocados em leitos (atual: %).', v_encounter.status;
   END IF;
 
-  -- Travar o leito atomicamente para evitar conflitos concorrentes
   SELECT * INTO v_bed FROM beds WHERE id = p_bed_id FOR UPDATE;
   IF NOT FOUND THEN
     RAISE EXCEPTION 'Leito não encontrado.';
@@ -495,10 +438,8 @@ BEGIN
     RAISE EXCEPTION 'Operação concorrente bloqueada: Leito "%" não está livre (status atual: %)', v_bed.name, v_bed.status;
   END IF;
 
-  -- Atualizar status do leito para ocupado
   UPDATE beds SET status = 'ocupado' WHERE id = p_bed_id;
 
-  -- Registrar ocupação
   INSERT INTO bed_assignments (
     bed_id,
     encounter_id,
@@ -511,13 +452,11 @@ BEGIN
     auth.uid()
   ) RETURNING * INTO v_assignment;
 
-  -- Atualizar atendimento para "Em observação" (2.9c)
   UPDATE encounters
   SET status = 'Em observação'
   WHERE id = p_encounter_id
   RETURNING * INTO v_encounter;
 
-  -- Registrar histórico
   INSERT INTO encounter_events (
     encounter_id,
     from_status,
@@ -539,9 +478,6 @@ BEGIN
 END;
 $$;
 
--- ------------------------------------------------------------------------------
--- 8. Limpeza de Leito (Liberar leito pela enfermagem)
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION clean_bed(
   p_bed_id UUID
 )
@@ -570,9 +506,6 @@ BEGIN
 END;
 $$;
 
--- ------------------------------------------------------------------------------
--- 9. Cancelar Atendimento (Desistência)
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION cancel_encounter(
   p_encounter_id UUID,
   p_reason TEXT DEFAULT 'Desistência do paciente'
@@ -589,7 +522,6 @@ BEGIN
     RAISE EXCEPTION 'Atendimento não encontrado.';
   END IF;
 
-  -- Conforme item 2.9c: permitido a partir de 'Aguardando triagem' ou 'Aguardando médico'
   IF v_encounter.status NOT IN ('Aguardando triagem', 'Aguardando médico', 'Aguardando médico (reclassificação)') THEN
     RAISE EXCEPTION 'Cancelamento não permitido para atendimentos na situação atual: %', v_encounter.status;
   END IF;

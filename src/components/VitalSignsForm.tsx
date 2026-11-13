@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Componente: VitalSignsForm (Item 3.2, 3.8 & 2.3)
-// React Hook Form + Zod, sugestão automática de cor e justificativa obrigatória
-// ==============================================================================
-
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -92,7 +87,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
 
   const watchedValues = watch();
 
-  // Recalcular automaticamente a cor sugerida a cada alteração de valores
   useEffect(() => {
     const vitals: VitalSigns = {
       systolicBp: Number(watchedValues.systolicBp) || 0,
@@ -109,7 +103,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
     setSuggestedColor(result.color);
     setMatchedCriteria(result.matchedCriteria);
 
-    // Se o usuário ainda não alterou manualmente, acompanha a sugestão
     if (!watchedValues.justification && watchedValues.finalColor !== result.color) {
       setValue('finalColor', result.color);
     }
@@ -127,7 +120,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
   const onFormSubmit = (data: VitalSignsFormData) => {
     setValidationError(null);
 
-    // Regra do item 2.3: Ao alterar a cor sugerida, a justificativa é OBRIGATÓRIA!
     if (data.finalColor !== suggestedColor) {
       if (!data.justification || data.justification.trim().length === 0) {
         setValidationError(
@@ -179,9 +171,7 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
         </div>
       )}
 
-      {/* Grid de Sinais Vitais */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
-        {/* Pressão Arterial */}
         <div>
           <label htmlFor="systolicBp" style={{ display: 'block', fontWeight: 600, marginBottom: '4px' }}>
             PA Sistólica (mmHg) *
@@ -208,7 +198,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
           {errors.diastolicBp && <span style={{ color: '#dc2626', fontSize: '0.8rem' }}>{errors.diastolicBp.message}</span>}
         </div>
 
-        {/* Frequência Cardíaca */}
         <div>
           <label htmlFor="heartRate" style={{ display: 'block', fontWeight: 600, marginBottom: '4px' }}>
             Freq. Cardíaca (bpm) *
@@ -222,7 +211,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
           {errors.heartRate && <span style={{ color: '#dc2626', fontSize: '0.8rem' }}>{errors.heartRate.message}</span>}
         </div>
 
-        {/* Temperatura */}
         <div>
           <label htmlFor="temperature" style={{ display: 'block', fontWeight: 600, marginBottom: '4px' }}>
             Temperatura (°C) *
@@ -237,7 +225,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
           {errors.temperature && <span style={{ color: '#dc2626', fontSize: '0.8rem' }}>{errors.temperature.message}</span>}
         </div>
 
-        {/* Saturação de O2 */}
         <div>
           <label htmlFor="oxygenSaturation" style={{ display: 'block', fontWeight: 600, marginBottom: '4px' }}>
             Saturação O₂ (%) *
@@ -253,7 +240,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
           )}
         </div>
 
-        {/* Escala de Dor (0 a 10) */}
         <div>
           <label htmlFor="painScale" style={{ display: 'block', fontWeight: 600, marginBottom: '4px' }}>
             Escala de Dor (0 a 10) *
@@ -269,7 +255,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
           {errors.painScale && <span style={{ color: '#dc2626', fontSize: '0.8rem' }}>{errors.painScale.message}</span>}
         </div>
 
-        {/* Nível de Consciência */}
         <div>
           <label htmlFor="consciousnessLevel" style={{ display: 'block', fontWeight: 600, marginBottom: '4px' }}>
             Nível de Consciência *
@@ -289,7 +274,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
         </div>
       </div>
 
-      {/* Queixa Principal */}
       <div>
         <label htmlFor="chiefComplaint" style={{ display: 'block', fontWeight: 600, marginBottom: '4px' }}>
           Queixa Principal *
@@ -306,7 +290,6 @@ export const VitalSignsForm: React.FC<VitalSignsFormProps> = ({
         )}
       </div>
 
-      {/* Painel de Sugestão Automática de Classificação */}
       <div
         style={{
           padding: '14px',

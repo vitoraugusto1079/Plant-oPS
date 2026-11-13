@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Serviço do Painel da Gestão (Item 2.8)
-// Cálculo de indicadores clínicos e operacionais a partir do banco de dados
-// ==============================================================================
-
 import { supabase } from './supabaseClient';
 import { TriageColor } from '../domain/types';
 import { RISK_CONFIG } from '../domain/triage';
@@ -27,14 +22,11 @@ export interface ManagementDashboardData {
     occupiedBeds: number;
     cleaningBeds: number;
     freeBeds: number;
-    occupancyRate: number; // 0 - 100%
+    occupancyRate: number;
   };
 }
 
 export const managementService = {
-  /**
-   * Obtém os indicadores de gestão para o período selecionado
-   */
   async getDashboardData(period: ManagementPeriod = 'hoje'): Promise<ManagementDashboardData> {
     const now = new Date();
     const startDate = new Date();
@@ -49,7 +41,6 @@ export const managementService = {
       startDate.setHours(0, 0, 0, 0);
     }
 
-    // 1. Buscar atendimentos no período
     const { data: encounters, error: encError } = await supabase
       .from('encounters')
       .select('id, created_at, triaged_at, called_at, priority_color, status')
@@ -61,7 +52,6 @@ export const managementService = {
     const list = encounters || [];
     const totalEncounters = list.length;
 
-    // 2. Atendimentos por hora
     const hoursMap = new Map<string, number>();
     for (let h = 0; h < 24; h++) {
       const label = `${String(h).padStart(2, '0')}:00`;
@@ -79,7 +69,6 @@ export const managementService = {
       count,
     }));
 
-    // 3. Distribuição por cor
     const colorCounts: Record<TriageColor, number> = {
       Vermelho: 0,
       Laranja: 0,
@@ -100,7 +89,6 @@ export const managementService = {
       return { color, count, percentage };
     });
 
-    // 4. Tempo médio de espera por cor e atendimentos fora do prazo
     const waitTimes: Record<TriageColor, { totalWait: number; count: number; overdueCount: number }> = {
       Vermelho: { totalWait: 0, count: 0, overdueCount: 0 },
       Laranja: { totalWait: 0, count: 0, overdueCount: 0 },
@@ -146,7 +134,6 @@ export const managementService = {
     const overduePercentage =
       totalTriagedAndCalled > 0 ? Math.round((totalOverdue / totalTriagedAndCalled) * 100) : 0;
 
-    // 5. Taxa de ocupação dos leitos
     const { data: beds, error: bedError } = await supabase.from('beds').select('status');
     if (bedError) throw bedError;
 

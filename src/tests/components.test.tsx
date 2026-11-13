@@ -1,7 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Testes de Componentes com React Testing Library (Item 3.9)
-// ==============================================================================
-
 import '@testing-library/jest-dom/vitest';
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
@@ -27,7 +23,6 @@ describe('Componentes Visuais e de Acessibilidade', () => {
 
   describe('WaitTimer (Item 3.2 & 2.4)', () => {
     it('deve exibir o contador de espera e destacar visualmente quando ultrapassar o prazo', () => {
-      // Triagem feita há 20 minutos para cor Laranja (máximo 10 min)
       const twentyMinsAgo = new Date(Date.now() - 20 * 60 * 1000);
       render(<WaitTimer triagedAt={twentyMinsAgo} color="Laranja" />);
 
@@ -59,7 +54,6 @@ describe('Componentes Visuais e de Acessibilidade', () => {
       const spo2Input = screen.getByLabelText(/Saturação O₂/i);
       fireEvent.change(spo2Input, { target: { value: '88' } });
 
-      // O badge de sugestão automática deve refletir Vermelho
       expect(await screen.findByText('Vermelho')).toBeInTheDocument();
     });
   });

@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Componente: WaitTimer (Item 3.2 & 2.4)
-// Contador de espera em tempo real com destaque visual de alerta ao estourar o prazo
-// ==============================================================================
-
 import React, { useState, useEffect } from 'react';
 import { TriageColor } from '../domain/types';
 import { getWaitMinutes, isOverdue } from '../domain/queue';
@@ -22,7 +17,6 @@ export const WaitTimer: React.FC<WaitTimerProps> = ({
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
-    // Atualiza a cada 10 segundos
     const timer = setInterval(() => {
       setNow(new Date());
     }, 10000);

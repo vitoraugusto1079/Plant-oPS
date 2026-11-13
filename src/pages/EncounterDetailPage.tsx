@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página de Detalhes do Atendimento (Item 3.3: /atendimentos/:id)
-// Linha do tempo completa do atendimento, triagens e prescrições
-// ==============================================================================
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -68,7 +63,6 @@ export const EncounterDetailPage: React.FC = () => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '20px' }}>
-        {/* Dados do Paciente */}
         <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
             Identificação do Paciente
@@ -86,7 +80,6 @@ export const EncounterDetailPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Linha do Tempo e Horários do Atendimento (Item 4) */}
         <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
             Linha do Tempo das Etapas
@@ -111,7 +104,6 @@ export const EncounterDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Histórico de Triagens / Reclassificações */}
       <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
         <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
           Histórico de Triagens e Sinais Vitais ({encounter.triages?.length || 0})
@@ -150,7 +142,6 @@ export const EncounterDetailPage: React.FC = () => {
         )}
       </div>
 
-      {/* Prescrições Médicas */}
       <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
         <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
           Prescrições do Atendimento ({prescriptions.length})

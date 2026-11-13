@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Testes de Domínio: Ordenação da Fila de Espera (Item 3.9)
-// Prioridade por cor, maior tempo de espera e desempate por faixa etária (idosos/crianças)
-// ==============================================================================
-
 import { describe, it, expect } from 'vitest';
 import { sortQueue, calculateAge, hasAgePriority, isOverdue } from '../domain/queue';
 import { Encounter } from '../domain/types';
@@ -76,7 +71,7 @@ describe('Ordenação e Regras da Fila (Item 2.9b)', () => {
         status: 'Aguardando médico',
         priority_color: 'Amarelo',
         created_at: '2026-11-13T10:15:00Z',
-        triaged_at: '2026-11-13T10:20:00Z', // Chegou depois
+        triaged_at: '2026-11-13T10:20:00Z',
       },
       {
         id: '2',
@@ -85,7 +80,7 @@ describe('Ordenação e Regras da Fila (Item 2.9b)', () => {
         status: 'Aguardando médico',
         priority_color: 'Amarelo',
         created_at: '2026-11-13T10:00:00Z',
-        triaged_at: '2026-11-13T10:05:00Z', // Chegou antes
+        triaged_at: '2026-11-13T10:05:00Z',
       },
     ];
 
@@ -107,7 +102,7 @@ describe('Ordenação e Regras da Fila (Item 2.9b)', () => {
         patient: {
           id: 'p1',
           name: 'Adulto',
-          birth_date: '1995-05-10', // 31 anos
+          birth_date: '1995-05-10',
           gender: 'M',
           created_at: '2026-11-13T10:00:00Z',
         },
@@ -123,7 +118,7 @@ describe('Ordenação e Regras da Fila (Item 2.9b)', () => {
         patient: {
           id: 'p2',
           name: 'Idoso',
-          birth_date: '1951-03-15', // 75 anos
+          birth_date: '1951-03-15',
           gender: 'M',
           created_at: '2026-11-13T10:00:00Z',
         },
@@ -139,7 +134,7 @@ describe('Ordenação e Regras da Fila (Item 2.9b)', () => {
         patient: {
           id: 'p3',
           name: 'Criança',
-          birth_date: '2020-01-20', // 6 anos
+          birth_date: '2020-01-20',
           gender: 'F',
           created_at: '2026-11-13T10:00:00Z',
         },
@@ -147,14 +142,12 @@ describe('Ordenação e Regras da Fila (Item 2.9b)', () => {
     ];
 
     const sorted = sortQueue(list);
-    // Idoso e criança devem vir antes do adulto de 30 anos
     expect(sorted[2].id).toBe('adulto-30');
     expect(['idoso-75', 'crianca-6']).toContain(sorted[0].id);
     expect(['idoso-75', 'crianca-6']).toContain(sorted[1].id);
   });
 
   it('deve detectar tempo de espera estourado (isOverdue)', () => {
-    // Amarelo: máximo 60 min. Espera de 65 min deve ser overdue.
     const triagedAt = new Date('2026-11-13T10:00:00Z');
     const now65MinLater = new Date('2026-11-13T11:05:00Z');
     const now50MinLater = new Date('2026-11-13T10:50:00Z');

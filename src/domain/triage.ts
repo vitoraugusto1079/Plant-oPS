@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Regras de Domínio: Classificação de Risco (Item 2.9a)
-// Funções puras sem dependências externas
-// ==============================================================================
-
 import { TriageColor, VitalSigns } from './types';
 
 export interface RiskClassificationResult {
@@ -50,21 +45,12 @@ export const RISK_CONFIG: Record<TriageColor, { priority: string; maxWaitMinutes
   },
 };
 
-/**
- * Classifica o risco do paciente a partir dos seus sinais vitais.
- * A cor sugerida é definida pelo critério mais grave encontrado (Item 2.9a).
- */
 export function classifyRisk(vitals: VitalSigns): RiskClassificationResult {
   const redCriteria: string[] = [];
   const orangeCriteria: string[] = [];
   const yellowCriteria: string[] = [];
   const greenCriteria: string[] = [];
 
-  // Critérios para VERMELHO (Emergência - Imediato):
-  // - Saturação < 90%
-  // - Pressão sistólica < 80 mmHg
-  // - FC < 40 ou > 140 bpm
-  // - Paciente inconsciente
   if (vitals.oxygenSaturation < 90) {
     redCriteria.push('Saturação de O₂ < 90%');
   }
@@ -87,12 +73,6 @@ export function classifyRisk(vitals: VitalSigns): RiskClassificationResult {
     };
   }
 
-  // Critérios para LARANJA (Muito urgente - 10 min):
-  // - Saturação de 90% a 93%
-  // - Temperatura >= 40 °C ou <= 35 °C
-  // - Dor de 8 a 10
-  // - Frequência cardíaca de 121 a 140 bpm
-  // - Paciente confuso
   if (vitals.oxygenSaturation >= 90 && vitals.oxygenSaturation <= 93) {
     orangeCriteria.push('Saturação de O₂ entre 90% e 93%');
   }
@@ -118,10 +98,6 @@ export function classifyRisk(vitals: VitalSigns): RiskClassificationResult {
     };
   }
 
-  // Critérios para AMARELO (Urgente - 60 min):
-  // - Temperatura de 38,5 °C a 39,9 °C
-  // - Dor de 5 a 7
-  // - Pressão sistólica >= 180 mmHg
   if (vitals.temperature >= 38.5 && vitals.temperature <= 39.9) {
     yellowCriteria.push('Temperatura entre 38,5 °C e 39,9 °C (Febre alta)');
   }
@@ -141,9 +117,6 @@ export function classifyRisk(vitals: VitalSigns): RiskClassificationResult {
     };
   }
 
-  // Critérios para VERDE (Pouco urgente - 120 min):
-  // - Temperatura de 37,8 °C a 38,4 °C
-  // - Dor de 1 a 4
   if (vitals.temperature >= 37.8 && vitals.temperature <= 38.4) {
     greenCriteria.push('Temperatura entre 37,8 °C e 38,4 °C (Estado febril)');
   }
@@ -160,7 +133,6 @@ export function classifyRisk(vitals: VitalSigns): RiskClassificationResult {
     };
   }
 
-  // Se nenhum dos critérios acima for atendido -> AZUL (Não urgente - 240 min)
   return {
     color: 'Azul',
     priority: RISK_CONFIG.Azul.priority,

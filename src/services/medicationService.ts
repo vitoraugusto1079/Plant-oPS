@@ -1,14 +1,7 @@
-// ==============================================================================
-// PlantãoPS - Serviço de Medicamentos e Prescrições (Item 2.5)
-// ==============================================================================
-
 import { supabase } from './supabaseClient';
 import { Medication, Prescription } from '../domain/types';
 
 export const medicationService = {
-  /**
-   * Lista todos os medicamentos disponíveis no catálogo com dosagens máximas
-   */
   async listMedications(): Promise<Medication[]> {
     const { data, error } = await supabase
       .from('medications')
@@ -19,9 +12,6 @@ export const medicationService = {
     return (data || []) as Medication[];
   },
 
-  /**
-   * Registra uma prescrição médica com validações atômicas no banco (RPC)
-   */
   async prescribeMedication(params: {
     encounterId: string;
     medicationId: string;
@@ -45,9 +35,6 @@ export const medicationService = {
     return data as Prescription;
   },
 
-  /**
-   * Busca as prescrições de um atendimento específico
-   */
   async getPrescriptionsByEncounter(encounterId: string): Promise<Prescription[]> {
     const { data, error } = await supabase
       .from('prescriptions')

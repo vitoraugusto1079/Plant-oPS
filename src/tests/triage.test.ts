@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Testes de Domínio: Classificação de Risco (Item 3.9)
-// Cobre todas as cores e os valores-limite de cada critério
-// ==============================================================================
-
 import { describe, it, expect } from 'vitest';
 import { classifyRisk } from '../domain/triage';
 import { VitalSigns } from '../domain/types';
@@ -120,7 +115,6 @@ describe('Classificação de Risco - Manchester Simplificado (Item 2.9a)', () =>
 
   describe('Hierarquia de Gravidade (Critério mais grave prevalece)', () => {
     it('deve priorizar Vermelho sobre Laranja e Amarelo quando múltiplos critérios coexistirem', () => {
-      // Paciente com febre moderada (38.8 °C -> Amarelo) e dor intensa (9 -> Laranja), mas saturação 88% -> Vermelho
       const res = classifyRisk({
         ...defaultNormalVitals,
         temperature: 38.8,

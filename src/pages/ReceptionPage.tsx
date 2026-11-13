@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página da Recepção (Item 2.2 & 3.8)
-// Busca, cadastro de pacientes, abertura de atendimento com senha sequencial
-// ==============================================================================
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -18,7 +13,7 @@ const patientSchema = z.object({
   birth_date: z.string().min(10, 'Informe uma data de nascimento válida (AAAA-MM-DD)'),
   gender: z.enum(['M', 'F', 'Outro'] as const),
   phone: z.string().optional(),
-  allergies: z.string().optional(), // separados por vírgula
+  allergies: z.string().optional(),
 });
 
 type PatientFormData = z.infer<typeof patientSchema>;
@@ -30,20 +25,17 @@ export const ReceptionPage: React.FC = () => {
   const [actionMessage, setActionMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [showNewPatientForm, setShowNewPatientForm] = useState(false);
 
-  // 1. Busca de pacientes
   const { data: searchResults = [], isLoading: isSearching } = useQuery({
     queryKey: ['patients-search', searchTerm],
     queryFn: () => patientService.searchPatients(searchTerm),
   });
 
-  // 2. Atendimentos abertos no dia
   const { data: todayEncounters = [], isLoading: isLoadingEncounters } = useQuery({
     queryKey: ['today-encounters'],
     queryFn: () => encounterService.getTodayEncounters(),
     refetchInterval: 15000,
   });
 
-  // Formulário de novo paciente
   const {
     register,
     handleSubmit,
@@ -56,7 +48,6 @@ export const ReceptionPage: React.FC = () => {
     },
   });
 
-  // Mutação: cadastrar paciente
   const createPatientMutation = useMutation({
     mutationFn: async (data: PatientFormData) => {
       const allergyList = data.allergies
@@ -88,7 +79,6 @@ export const ReceptionPage: React.FC = () => {
     },
   });
 
-  // Mutação: abrir atendimento (gerar senha sequencial)
   const openEncounterMutation = useMutation({
     mutationFn: async (patientId: string) => {
       return await encounterService.createEncounter(patientId);
@@ -141,9 +131,7 @@ export const ReceptionPage: React.FC = () => {
         </div>
       )}
 
-      {/* Grid Principal: Busca/Cadastro à esquerda e Lista do Dia à direita */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '24px' }}>
-        {/* Painel Esquerdo: Busca e Abertura */}
         <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <h2 style={{ fontSize: '1.2rem', fontWeight: 700, margin: 0, color: '#0a5f55' }}>
@@ -234,7 +222,6 @@ export const ReceptionPage: React.FC = () => {
                 })}
               </div>
 
-              {/* Ação de abertura de atendimento */}
               {selectedPatient && (
                 <div style={{ marginTop: '20px', padding: '16px', backgroundColor: '#f4f7f6', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
                   <h3 style={{ margin: '0 0 8px 0', fontSize: '1rem', color: '#0a5f55' }}>
@@ -264,7 +251,6 @@ export const ReceptionPage: React.FC = () => {
               )}
             </div>
           ) : (
-            /* Formulário de Cadastro de Novo Paciente */
             <form onSubmit={handleSubmit(onSubmitPatient)} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div>
                 <label htmlFor="name" style={{ display: 'block', fontWeight: 600, fontSize: '0.85rem', marginBottom: '4px' }}>
@@ -360,7 +346,6 @@ export const ReceptionPage: React.FC = () => {
           )}
         </div>
 
-        {/* Painel Direito: Atendimentos Abertos no Dia (Item 2.2) */}
         <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           <h2 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 16px 0', color: '#0a5f55' }}>
             Atendimentos Abertos Hoje ({todayEncounters.length})

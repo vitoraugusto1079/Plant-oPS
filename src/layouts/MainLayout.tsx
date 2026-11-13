@@ -1,7 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Layout Principal dos Profissionais (Item 3.3)
-// ==============================================================================
-
 import React from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -25,7 +21,6 @@ export const MainLayout: React.FC = () => {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f4f7f6' }}>
-      {/* Barra de Navegação Superior */}
       <header
         style={{
           backgroundColor: '#0a5f55',
@@ -45,7 +40,6 @@ export const MainLayout: React.FC = () => {
             </span>
           </Link>
 
-          {/* Links contextuais de acordo com o perfil */}
           <nav style={{ display: 'flex', gap: '14px', fontSize: '0.95rem' }}>
             {profile?.role === 'recepcao' && (
               <>
@@ -109,7 +103,6 @@ export const MainLayout: React.FC = () => {
           </nav>
         </div>
 
-        {/* Informações do Usuário e Logout */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div style={{ textAlign: 'right', fontSize: '0.85rem' }}>
             <div style={{ fontWeight: 700 }}>{profile?.name}</div>
@@ -145,7 +138,6 @@ export const MainLayout: React.FC = () => {
         </div>
       </header>
 
-      {/* Conteúdo da Página */}
       <main style={{ flex: 1, padding: '24px', maxWidth: '1400px', width: '100%', margin: '0 auto' }}>
         <Outlet />
       </main>

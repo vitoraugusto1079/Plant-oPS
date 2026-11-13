@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Testes de Domínio: Bloqueio de Prescrição (Item 3.9)
-// Validação de Alergias e Limite de Dose Máxima
-// ==============================================================================
-
 import { describe, it, expect } from 'vitest';
 import { validateMedicationAllergy, validateMedicationDose } from '../domain/prescription';
 import { Medication } from '../domain/types';

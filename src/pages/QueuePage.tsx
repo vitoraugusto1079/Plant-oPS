@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página da Fila de Atendimento em Tempo Real (Item 2.4)
-// Ordenação por prioridade clínica, tempo e desempate etário; filtros por cor
-// ==============================================================================
-
 import React from 'react';
 import { useQueue } from '../hooks/useQueue';
 import { QueueItem } from '../components/QueueItem';
@@ -49,7 +44,6 @@ export const QueuePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Barra de Filtros por Cor e Indicadores de Quantidade */}
       <div
         role="group"
         aria-label="Filtro por classificação de risco"
@@ -116,7 +110,6 @@ export const QueuePage: React.FC = () => {
         })}
       </div>
 
-      {/* Lista da Fila Ordenada */}
       {isLoading ? (
         <div style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
           Carregando fila em tempo real...

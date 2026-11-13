@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Componente: RiskBadge (Item 3.2 & 3.10)
-// Exibe cor e nome textual da classificação (acessibilidade para daltonismo)
-// ==============================================================================
-
 import React from 'react';
 import { TriageColor } from '../domain/types';
 import { RISK_CONFIG } from '../domain/triage';

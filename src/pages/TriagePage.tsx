@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página de Triagem e Enfermagem (Item 2.3)
-// Fila de triagem por ordem de chegada, classificação de risco e reclassificação
-// ==============================================================================
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { encounterService } from '../services/encounterService';
@@ -18,24 +13,20 @@ export const TriagePage: React.FC = () => {
   const [isReclassifying, setIsReclassifying] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  // 1. Pacientes aguardando triagem inicial por ordem de chegada
   const { data: waitingTriage = [], isLoading: isLoadingWaiting } = useQuery({
     queryKey: ['waiting-triage'],
     queryFn: () => encounterService.getWaitingTriage(),
   });
 
-  // 2. Pacientes já triados aguardando médico (para permitir reclassificação)
   const { data: waitingDoctor = [] } = useQuery({
     queryKey: ['doctor-queue'],
     queryFn: () => encounterService.getWaitingDoctorQueue(),
   });
 
-  // Realtime updates
   useRealtimeTable('encounters', 'waiting-triage');
   useRealtimeTable('triages', 'waiting-triage');
   useRealtimeTable('encounters', 'doctor-queue');
 
-  // Mutação para salvar triagem
   const saveTriageMutation = useMutation({
     mutationFn: async (params: {
       vitals: VitalSigns;
@@ -104,9 +95,7 @@ export const TriagePage: React.FC = () => {
       )}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '24px' }}>
-        {/* Coluna Esquerda: Listas de Espera */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {/* Fila de Triagem Inicial */}
           <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
             <h2 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 14px 0', color: '#0a5f55' }}>
               Pacientes Aguardando Triagem ({waitingTriage.length})
@@ -171,7 +160,6 @@ export const TriagePage: React.FC = () => {
             )}
           </div>
 
-          {/* Opção de Reclassificação de Paciente na Fila */}
           <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
             <h2 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 10px 0', color: '#0a5f55' }}>
               Reclassificar Paciente na Fila ({waitingDoctor.length})
@@ -229,7 +217,6 @@ export const TriagePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Coluna Direita: Formulário de Triagem / Reclassificação */}
         <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           {selectedEncounter ? (
             <div>

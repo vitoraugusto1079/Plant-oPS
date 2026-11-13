@@ -1,12 +1,5 @@
--- ==============================================================================
--- PlantãoPS - Schema do Banco de Dados PostgreSQL (Supabase)
--- Sistema de Gestão de Pronto-Socorro com Classificação de Risco
--- ==============================================================================
-
--- Habilitar extensão pgcrypto para gen_random_uuid (padrão no Supabase)
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- Limpeza preventiva de tabelas e tipos (em ordem de dependência reversa)
 DROP TABLE IF EXISTS calls CASCADE;
 DROP TABLE IF EXISTS bed_assignments CASCADE;
 DROP TABLE IF EXISTS beds CASCADE;
@@ -26,9 +19,6 @@ DROP TYPE IF EXISTS bed_status CASCADE;
 DROP TYPE IF EXISTS bed_ward CASCADE;
 DROP TYPE IF EXISTS patient_destination CASCADE;
 
--- ------------------------------------------------------------------------------
--- Tipos Enumerados (ENUMs)
--- ------------------------------------------------------------------------------
 CREATE TYPE user_role AS ENUM (
   'recepcao',
   'enfermagem',
@@ -76,9 +66,6 @@ CREATE TYPE patient_destination AS ENUM (
   'transferência'
 );
 
--- ------------------------------------------------------------------------------
--- 1. Perfis de Usuários (vinculados ao auth.users do Supabase)
--- ------------------------------------------------------------------------------
 CREATE TABLE profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
@@ -86,21 +73,15 @@ CREATE TABLE profiles (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- ------------------------------------------------------------------------------
--- 2. Pacientes
--- ------------------------------------------------------------------------------
 CREATE TABLE patients (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   birth_date DATE NOT NULL,
-  gender TEXT NOT NULL, -- 'M', 'F', 'Outro'
+  gender TEXT NOT NULL,
   phone TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- ------------------------------------------------------------------------------
--- 3. Alergias dos Pacientes
--- ------------------------------------------------------------------------------
 CREATE TABLE patient_allergies (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   patient_id UUID NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
@@ -108,15 +89,12 @@ CREATE TABLE patient_allergies (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- ------------------------------------------------------------------------------
--- 4. Atendimentos (Encounters)
--- ------------------------------------------------------------------------------
 CREATE TABLE encounters (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   patient_id UUID NOT NULL REFERENCES patients(id) ON DELETE RESTRICT,
-  ticket_number TEXT NOT NULL, -- Ex: 'A001', 'A023'
+  ticket_number TEXT NOT NULL,
   status encounter_status NOT NULL DEFAULT 'Aguardando triagem',
-  priority_color triage_color, -- Atualizado na triagem
+  priority_color triage_color,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   triaged_at TIMESTAMPTZ,
   called_at TIMESTAMPTZ,
@@ -127,14 +105,10 @@ CREATE TABLE encounters (
   completed_at TIMESTAMPTZ
 );
 
--- Regra de negócio: Um mesmo paciente não pode ter dois atendimentos ativos ao mesmo tempo
-CREATE UNIQUE INDEX idx_unique_active_encounter 
-  ON encounters(patient_id) 
+CREATE UNIQUE INDEX idx_unique_active_encounter
+  ON encounters(patient_id)
   WHERE status NOT IN ('Alta', 'Transferido', 'Cancelado');
 
--- ------------------------------------------------------------------------------
--- 5. Triagens e Histórico de Classificações
--- ------------------------------------------------------------------------------
 CREATE TABLE triages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   encounter_id UUID NOT NULL REFERENCES encounters(id) ON DELETE CASCADE,
@@ -145,7 +119,7 @@ CREATE TABLE triages (
   temperature NUMERIC(4,1) NOT NULL,
   oxygen_saturation INT NOT NULL CHECK (oxygen_saturation >= 0 AND oxygen_saturation <= 100),
   pain_scale INT NOT NULL CHECK (pain_scale >= 0 AND pain_scale <= 10),
-  consciousness_level TEXT NOT NULL, -- 'alerta', 'confuso', 'inconsciente'
+  consciousness_level TEXT NOT NULL,
   chief_complaint TEXT NOT NULL,
   suggested_color triage_color NOT NULL,
   final_color triage_color NOT NULL,
@@ -156,9 +130,6 @@ CREATE TABLE triages (
   )
 );
 
--- ------------------------------------------------------------------------------
--- 6. Histórico de Mudanças de Situação (Auditoria de Eventos)
--- ------------------------------------------------------------------------------
 CREATE TABLE encounter_events (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   encounter_id UUID NOT NULL REFERENCES encounters(id) ON DELETE CASCADE,
@@ -169,21 +140,15 @@ CREATE TABLE encounter_events (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- ------------------------------------------------------------------------------
--- 7. Catálogo de Medicamentos
--- ------------------------------------------------------------------------------
 CREATE TABLE medications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL UNIQUE,
   max_dose NUMERIC(8,2) NOT NULL,
-  unit TEXT NOT NULL, -- 'mg', 'g', 'ml', 'gotas'
-  default_route TEXT NOT NULL, -- 'Oral', 'Intravenosa (EV)', 'Intramuscular (IM)', etc.
+  unit TEXT NOT NULL,
+  default_route TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- ------------------------------------------------------------------------------
--- 8. Prescrições
--- ------------------------------------------------------------------------------
 CREATE TABLE prescriptions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   encounter_id UUID NOT NULL REFERENCES encounters(id) ON DELETE CASCADE,
@@ -197,9 +162,6 @@ CREATE TABLE prescriptions (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- ------------------------------------------------------------------------------
--- 9. Leitos
--- ------------------------------------------------------------------------------
 CREATE TABLE beds (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
@@ -208,9 +170,6 @@ CREATE TABLE beds (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- ------------------------------------------------------------------------------
--- 10. Ocupações de Leitos
--- ------------------------------------------------------------------------------
 CREATE TABLE bed_assignments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   bed_id UUID NOT NULL REFERENCES beds(id) ON DELETE RESTRICT,
@@ -220,19 +179,14 @@ CREATE TABLE bed_assignments (
   created_by UUID REFERENCES profiles(id) ON DELETE SET NULL
 );
 
--- Regra de negócio: Restrições no banco impedem duas ocupações ativas do mesmo leito e
--- um atendimento não pode ocupar mais de um leito ativo simultaneamente
-CREATE UNIQUE INDEX idx_unique_active_bed 
-  ON bed_assignments(bed_id) 
+CREATE UNIQUE INDEX idx_unique_active_bed
+  ON bed_assignments(bed_id)
   WHERE discharged_at IS NULL;
 
-CREATE UNIQUE INDEX idx_unique_active_encounter_bed 
-  ON bed_assignments(encounter_id) 
+CREATE UNIQUE INDEX idx_unique_active_encounter_bed
+  ON bed_assignments(encounter_id)
   WHERE discharged_at IS NULL;
 
--- ------------------------------------------------------------------------------
--- 11. Chamadas no Painel da Sala de Espera
--- ------------------------------------------------------------------------------
 CREATE TABLE calls (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   encounter_id UUID NOT NULL REFERENCES encounters(id) ON DELETE CASCADE,
@@ -241,7 +195,6 @@ CREATE TABLE calls (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Índices adicionais para otimização de consultas da fila e métricas
 CREATE INDEX idx_encounters_status_priority ON encounters(status, priority_color);
 CREATE INDEX idx_encounters_created_at ON encounters(created_at);
 CREATE INDEX idx_triages_encounter_id ON triages(encounter_id);

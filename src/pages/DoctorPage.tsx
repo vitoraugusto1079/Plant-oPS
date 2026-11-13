@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página do Atendimento Médico (Item 2.5)
-// Chamar próximo atômico, consulta clínica, validações de prescrição e destino
-// ==============================================================================
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { encounterService } from '../services/encounterService';
@@ -18,22 +13,18 @@ export const DoctorPage: React.FC = () => {
   const queryClient = useQueryClient();
   const { profile } = useAuth();
 
-  // Estado do consultório selecionado pelo médico
   const [selectedRoom, setSelectedRoom] = useState<string>('Consultório 1');
   const [currentEncounter, setCurrentEncounter] = useState<Encounter | null>(null);
 
-  // Formulário clínico
   const [evolutionText, setEvolutionText] = useState('');
   const [selectedDestination, setSelectedDestination] = useState<PatientDestination>('alta');
 
-  // Prescrição de Medicamentos
   const [selectedMedicationId, setSelectedMedicationId] = useState<string>('');
   const [prescribedDose, setPrescribedDose] = useState<number>(0);
   const [prescribedRoute, setPrescribedRoute] = useState<string>('Oral');
   const [prescribedFrequency, setPrescribedFrequency] = useState<string>('8/8h');
   const [prescribedInstructions, setPrescribedInstructions] = useState<string>('');
 
-  // Mensagens e Diálogo de Confirmação
   const [systemAlert, setSystemAlert] = useState<{ type: 'error' | 'success' | 'warning'; text: string } | null>(null);
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
@@ -47,27 +38,23 @@ export const DoctorPage: React.FC = () => {
     action: () => {},
   });
 
-  // 1. Catálogo de Medicamentos
   const { data: medications = [] } = useQuery({
     queryKey: ['medications-catalog'],
     queryFn: () => medicationService.listMedications(),
   });
 
-  // 2. Prescrições do atendimento atual
   const { data: currentPrescriptions = [], refetch: refetchPrescriptions } = useQuery({
     queryKey: ['prescriptions', currentEncounter?.id],
     queryFn: () => (currentEncounter ? medicationService.getPrescriptionsByEncounter(currentEncounter.id) : []),
     enabled: !!currentEncounter,
   });
 
-  // 3. Histórico de Atendimentos Anteriores do Paciente
   const { data: patientHistory = [] } = useQuery({
     queryKey: ['patient-history', currentEncounter?.patient_id],
     queryFn: () => (currentEncounter ? encounterService.getPatientHistory(currentEncounter.patient_id, currentEncounter.id) : []),
     enabled: !!currentEncounter,
   });
 
-  // Mutação: Chamar Próximo Atômico
   const callNextMutation = useMutation({
     mutationFn: async () => {
       return await encounterService.callNextPatient(selectedRoom);
@@ -78,7 +65,6 @@ export const DoctorPage: React.FC = () => {
         return;
       }
 
-      // Buscar detalhes completos com paciente e triagens
       const detailed = await encounterService.getEncounterById(res.encounter.id);
       setCurrentEncounter(detailed);
       setEvolutionText('');
@@ -93,7 +79,6 @@ export const DoctorPage: React.FC = () => {
     },
   });
 
-  // Mutação: Prescrever Medicamento
   const prescribeMutation = useMutation({
     mutationFn: async (params: {
       encounterId: string;
@@ -117,7 +102,6 @@ export const DoctorPage: React.FC = () => {
     },
   });
 
-  // Mutação: Concluir Atendimento (Definir Destino)
   const concludeEncounterMutation = useMutation({
     mutationFn: async () => {
       if (!currentEncounter) throw new Error('Nenhum atendimento ativo.');
@@ -142,7 +126,6 @@ export const DoctorPage: React.FC = () => {
     },
   });
 
-  // Validação e Envio de Prescrição
   const handlePrescribe = () => {
     setSystemAlert(null);
     if (!currentEncounter) return;
@@ -153,7 +136,6 @@ export const DoctorPage: React.FC = () => {
       return;
     }
 
-    // 1. Validação de Alergia no Domínio (Item 2.5 & 3.7)
     const patientAllergies = currentEncounter.patient?.allergies || [];
     const allergyCheck = validateMedicationAllergy(patientAllergies, med.name);
     if (allergyCheck.isAllergic) {
@@ -164,7 +146,6 @@ export const DoctorPage: React.FC = () => {
       return;
     }
 
-    // 2. Validação de Dose Máxima no Domínio (Item 2.5 & 3.7)
     const doseCheck = validateMedicationDose(prescribedDose, med);
     if (!doseCheck.isValid) {
       setSystemAlert({
@@ -185,7 +166,6 @@ export const DoctorPage: React.FC = () => {
     });
   };
 
-  // Solicitar confirmação antes de concluir (Item 3.10)
   const handleRequestConclude = () => {
     if (!currentEncounter) return;
 
@@ -216,7 +196,6 @@ export const DoctorPage: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      {/* Barra de Controle do Consultório */}
       <div
         style={{
           display: 'flex',
@@ -287,12 +266,9 @@ export const DoctorPage: React.FC = () => {
         </div>
       )}
 
-      {/* Área da Consulta */}
       {currentEncounter ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '20px' }}>
-          {/* Coluna Esquerda: Dados do Paciente e Triagem */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {/* Cartão de Identificação */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <span style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0a5f55' }}>
@@ -309,7 +285,6 @@ export const DoctorPage: React.FC = () => {
                 Idade: {patientAge !== null ? `${patientAge} anos` : 'Não informada'} | Sexo: {patient?.gender} | Nasc.: {patient?.birth_date}
               </div>
 
-              {/* Alergias com Destaque de Segurança */}
               <div style={{ marginTop: '12px', padding: '10px', backgroundColor: '#fef2f2', borderRadius: '6px', border: '1px solid #fecaca' }}>
                 <strong style={{ color: '#991b1b', fontSize: '0.9rem' }}>⚠️ Alergias Conhecidas:</strong>
                 {patient?.allergies && patient.allergies.length > 0 ? (
@@ -326,7 +301,6 @@ export const DoctorPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Sinais Vitais da Triagem Atual */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
                 Triagem Atual (Sinais Vitais)
@@ -353,7 +327,6 @@ export const DoctorPage: React.FC = () => {
               )}
             </div>
 
-            {/* Histórico de Atendimentos Anteriores */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 10px 0', color: '#0a5f55' }}>
                 Histórico de Passagens Anteriores ({patientHistory.length})
@@ -378,9 +351,7 @@ export const DoctorPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Coluna Direita: Evolução Clínica, Prescrição e Destino */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {/* Evolução Médica (Texto Livre) */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <label htmlFor="evolutionText" style={{ display: 'block', fontWeight: 700, color: '#0a5f55', marginBottom: '6px' }}>
                 Registro da Evolução Médica (Texto Livre) *
@@ -395,7 +366,6 @@ export const DoctorPage: React.FC = () => {
               />
             </div>
 
-            {/* Prescrição Médica a partir do Catálogo com Validações */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
                 Prescrição Médica (com Validação de Alergia e Dose Máxima)
@@ -487,7 +457,6 @@ export const DoctorPage: React.FC = () => {
                 </button>
               </div>
 
-              {/* Lista de Prescrições do Atendimento */}
               <div style={{ marginTop: '12px', borderTop: '1px solid #f1f5f9', paddingTop: '10px' }}>
                 <strong style={{ fontSize: '0.85rem', color: '#334155' }}>
                   Medicamentos Prescritos neste Atendimento:
@@ -508,7 +477,6 @@ export const DoctorPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Definição do Destino do Paciente */}
             <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 12px 0', color: '#0a5f55' }}>
                 Definição do Destino do Paciente (Conduta Final)
@@ -582,7 +550,6 @@ export const DoctorPage: React.FC = () => {
         </div>
       )}
 
-      {/* Modal de Confirmação */}
       <ConfirmModal
         isOpen={confirmModal.isOpen}
         title={confirmModal.title}

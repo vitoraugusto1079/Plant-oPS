@@ -1,7 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página de Login e Autenticação (Item 2.1 & 3.3)
-// ==============================================================================
-
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -32,12 +28,10 @@ export const LoginPage: React.FC = () => {
 
     try {
       await login(email, password);
-      // O hook atualiza o profile; vamos verificar a role para redirecionar
       const from = (location.state as any)?.from?.pathname;
       if (from && from !== '/login') {
         navigate(from, { replace: true });
       } else {
-        // Redireciona baseado no email
         if (email.includes('recepcao')) navigate('/recepcao');
         else if (email.includes('enfermagem')) navigate('/triagem');
         else if (email.includes('medico')) navigate('/medico');
@@ -168,7 +162,6 @@ export const LoginPage: React.FC = () => {
           </button>
         </form>
 
-        {/* Atalhos de Demonstração / Usuários de Teste */}
         <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
           <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '8px' }}>
             Contas de Teste por Perfil:

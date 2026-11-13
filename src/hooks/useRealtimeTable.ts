@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Hook Genérico de Tempo Real com React Query (useRealtimeTable)
-// Invalida e sincroniza o cache do TanStack Query sem recarregar a página
-// ==============================================================================
-
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../services/supabaseClient';

@@ -1,10 +1,3 @@
--- ==============================================================================
--- PlantãoPS - Triggers e Automações de Banco de Dados
--- ==============================================================================
-
--- ------------------------------------------------------------------------------
--- 1. Trigger para Sincronizar Novos Usuários do Auth para a Tabela Profiles
--- ------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER
 LANGUAGE plpgsql
@@ -14,7 +7,6 @@ DECLARE
   v_role user_role := 'recepcao';
   v_name TEXT;
 BEGIN
-  -- Extrair role dos metadados se fornecido, senão definir default ou mapear por email
   IF NEW.raw_user_meta_data->>'role' IS NOT NULL THEN
     v_role := (NEW.raw_user_meta_data->>'role')::user_role;
   ELSIF NEW.email LIKE '%recepcao%' THEN

@@ -1,8 +1,3 @@
-// ==============================================================================
-// PlantãoPS - Página do Painel da Gestão (Item 2.8 & 4)
-// Indicadores calculados a partir do banco, filtros de período e exportação CSV
-// ==============================================================================
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { managementService, ManagementPeriod } from '../services/managementService';
@@ -19,7 +14,6 @@ export const ManagementPage: React.FC = () => {
     refetchInterval: 30000,
   });
 
-  // Função para exportar os dados do painel em CSV (Item 4 - Diferencial Criativo)
   const exportToCSV = () => {
     if (!data) return;
 
@@ -53,7 +47,6 @@ export const ManagementPage: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Cabeçalho e Filtro por Período */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0a5f55', margin: '0 0 6px 0' }}>
@@ -65,7 +58,6 @@ export const ManagementPage: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {/* Filtros de Período (Item 2.8) */}
           <div style={{ display: 'inline-flex', borderRadius: '6px', border: '1px solid #cbd5e1', overflow: 'hidden' }}>
             {[
               { id: 'hoje', label: 'Hoje' },
@@ -121,7 +113,6 @@ export const ManagementPage: React.FC = () => {
         </div>
       ) : (
         <>
-          {/* Linha 1: StatCards Principais */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
             <StatCard
               title="Total de Atendimentos"
@@ -151,9 +142,7 @@ export const ManagementPage: React.FC = () => {
             />
           </div>
 
-          {/* Linha 2: Distribuição por Cor e Tempo Médio vs Máximo */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '20px' }}>
-            {/* Distribuição dos atendimentos por cor */}
             <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0a5f55', margin: '0 0 16px 0' }}>
                 Distribuição dos Atendimentos por Cor
@@ -187,7 +176,6 @@ export const ManagementPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Tempo Médio de Espera vs Tempo Máximo */}
             <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0a5f55', margin: '0 0 16px 0' }}>
                 Tempo Médio de Espera vs. Tempo Máximo
@@ -228,7 +216,6 @@ export const ManagementPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Linha 3: Atendimentos por Hora no Dia */}
           <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
             <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0a5f55', margin: '0 0 16px 0' }}>
               Atendimentos por Hora no Dia (00:00 às 23:00)
